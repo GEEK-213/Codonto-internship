@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faaris Khan - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cursor-spotlight" id="cursorSpotlight"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <span class="gradient-text">FK</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-icons">
+                    <div class="icon-item">💻</div>
+                    <div class="icon-item">🚀</div>
+                    <div class="icon-item">⭐</div>
+                </div>
+                <h1 class="hero-title animate__animated animate__fadeInUp">
+                    Welcome To My <span class="gradient-text">Portfolio Website</span>
+                </h1>
+                <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+                    Discover my journey in AI & Web Development
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro" id="intro">
+        <div class="container">
+            <div class="intro-content">
+                <div class="intro-left">
+                    <h2 class="intro-role">
+                        Aspiring <span class="gradient-text">AI & Web Development</span> Professional
+                    </h2>
+                    <p class="intro-subtitle">Building the future with innovative solutions</p>
+                    <p class="intro-description">
+                        Passionate about creating intelligent applications and responsive web experiences. 
+                        I combine cutting-edge AI technologies with modern web development to deliver 
+                        impactful digital solutions.
+                    </p>
+                    <div class="intro-buttons">
+                        <button class="btn btn-primary" onclick="downloadResume()">Download Resume</button>
+                        <button class="btn btn-outline" onclick="scrollToContact()">Contact Me</button>
+                    </div>
+                </div>
+                <div class="intro-right">
+                    <div class="developer-illustration">
+                        <div class="dev-icon">👨‍💻</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-left">
+                    <h2 class="section-title">
+                        <span class="gradient-text">About Me</span>
+                    </h2>
+                    <h3 class="about-greeting">
+                        Hello, I'm <span class="gradient-text">Faaris Khan</span>
+                    </h3>
+                    <p class="about-description">
+                        I'm a dedicated student pursuing my BCA degree with a passion for artificial intelligence 
+                        and web development. My journey began with curiosity about how technology shapes our world, 
+                        and has evolved into a commitment to creating meaningful digital experiences. I believe in 
+                        continuous learning and staying updated with the latest trends in technology.
+                    </p>
+                    <div class="about-buttons">
+                        <button class="btn btn-primary" onclick="downloadCV()">Download CV</button>
+                        <button class="btn btn-outline" onclick="scrollToProjects()">View Projects</button>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <div class="profile-photo">
+                        <div class="photo-placeholder">FK</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 class="stat-number">10+</h3>
+                    <p class="stat-label">Total Projects</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">7</h3>
+                    <p class="stat-label">Certificates</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">3</h3>
+                    <p class="stat-label">Years of Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <h2 class="section-title text-center">
+                My <span class="gradient-text">Experience</span>
+            </h2>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="experience-info">
+                        <h3 class="experience-title">AI Intern – Lenovo Leap Internship</h3>
+                        <p class="experience-period">2024–Present</p>
+                        <p class="experience-description">Learning and applying AI-driven solutions in real scenarios.</p>
+                        <div class="experience-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">Data Analysis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="experience-card">
+                    <div class="experience-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="experience-info">
+                        <h3 class="experience-title">SkillUp Intern – Vanilla Kart</h3>
+                        <p class="experience-period">2024 (6 Months)</p>
+                        <p class="experience-description">Worked on web development, digital marketing, SEO, and client communication.</p>
+                        <div class="experience-tags">
+                            <span class="tag">Web Dev</span>
+                            <span class="tag">Digital Marketing</span>
+                            <span class="tag">SEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Showcase Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title text-center">
+                My <span class="gradient-text">Portfolio</span>
+            </h2>
+            <div class="portfolio-tabs">
+                <button class="tab-btn active" data-tab="projects">Projects</button>
+                <button class="tab-btn" data-tab="certificates">Certificates</button>
+                <button class="tab-btn" data-tab="techstack">Tech Stack</button>
+            </div>
+            
+            <div class="tab-content">
+                <!-- Projects Tab -->
+                <div class="tab-pane active" id="projects">
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image">🤖</div>
+                            <div class="project-info">
+                                <h4 class="project-title">AI Chatbot</h4>
+                                <p class="project-description">Conversational AI built with Python.</p>
+                                <div class="project-buttons">
+                                    <button class="btn btn-sm btn-primary" onclick="openDemo('chatbot')">Live Demo</button>
+                                    <button class="btn btn-sm btn-outline" onclick="viewDetails('chatbot')">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">🌐</div>
+                            <div class="project-info">
+                                <h4 class="project-title">Portfolio Website</h4>
+                                <p class="project-description">Responsive personal site using React.</p>
+                                <div class="project-buttons">
+                                    <button class="btn btn-sm btn-primary" onclick="openDemo('portfolio')">Live Demo</button>
+                                    <button class="btn btn-sm btn-outline" onclick="viewDetails('portfolio')">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">📊</div>
+                            <div class="project-info">
+                                <h4 class="project-title">SEO Dashboard</h4>
+                                <p class="project-description">Analytics dashboard for marketing.</p>
+                                <div class="project-buttons">
+                                    <button class="btn btn-sm btn-primary" onclick="openDemo('seo')">Live Demo</button>
+                                    <button class="btn btn-sm btn-outline" onclick="viewDetails('seo')">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificates Tab -->
+                <div class="tab-pane" id="certificates">
+                    <div class="certificates-grid">
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">Python Programming</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">Web Development</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">AI & Machine Learning</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">JavaScript Fundamentals</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">React Development</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">Database Management</p>
+                        </div>
+                        <div class="certificate-card">
+                            <div class="certificate-image"><i class="fas fa-certificate"></i></div>
+                            <p class="certificate-name">Cloud Computing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack Tab -->
+                <div class="tab-pane" id="techstack">
+                    <div class="techstack-grid">
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-html5"></i></div>
+                            <p class="tech-name">HTML5</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-css3-alt"></i></div>
+                            <p class="tech-name">CSS3</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-js-square"></i></div>
+                            <p class="tech-name">JavaScript</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-react"></i></div>
+                            <p class="tech-name">React</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-python"></i></div>
+                            <p class="tech-name">Python</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-node-js"></i></div>
+                            <p class="tech-name">Node.js</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fab fa-bootstrap"></i></div>
+                            <p class="tech-name">Bootstrap</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fas fa-fire"></i></div>
+                            <p class="tech-name">Firebase</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fas fa-database"></i></div>
+                            <p class="tech-name">MySQL</p>
+                        </div>
+                        <div class="tech-card">
+                            <div class="tech-icon"><i class="fas fa-code"></i></div>
+                            <p class="tech-name">Vercel</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="container">
+            <h2 class="section-title text-center">
+                My <span class="gradient-text">Education</span>
+            </h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-icon">🎓</div>
+                    <div class="education-info">
+                        <h4 class="education-degree">Bachelor of Computer Applications (BCA)</h4>
+                        <p class="education-institution">GVM's GGPR College</p>
+                        <p class="education-period">2023 - 2026</p>
+                    </div>
+                </div>
+                <div class="education-card">
+                    <div class="education-icon">📚</div>
+                    <div class="education-info">
+                        <h4 class="education-degree">Higher Secondary (Commerce)</h4>
+                        <p class="education-institution">P.E.S School</p>
+                        <p class="education-period">2021 - 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title text-center">
+                Get In <span class="gradient-text">Touch</span>
+            </h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>faariskhan213@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+91 9763435213</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Durgabhat, Ponda-Goa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
