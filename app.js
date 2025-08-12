@@ -245,8 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth'
         });
     });
-    
-    // Add hover effect
+  
     scrollTopButton.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-3px)';
         this.style.boxShadow = '0 6px 16px rgba(30, 64, 175, 0.4)';
