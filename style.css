@@ -79,11 +79,7 @@ body {
 .sidebar {
     background: white;
     border-radius: 8px;
-    /* padding: 2rem;
-     height: fit-content;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 100px; */
+   
 }
 
 /* Profile Section */
@@ -92,17 +88,6 @@ body {
     margin-bottom: 2rem;
 } */
 
-/* .profile-photo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #4A90E2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    background: #f0f8ff;
-} */
 
 .initials {
     font-size: 2rem;
@@ -141,56 +126,6 @@ Sidebar Sections */
     color: #333;
     word-break: break-word;
 }
-/* 
-.skills-list {
-    list-style: none;
-}
-
-.skills-list li {
-    padding: 0.5rem 0;
-    color: #555;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.skills-list li:last-child {
-    border-bottom: none;
-} */
-
-/* Main Content
-.main-content {
-    background: white;
-    border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.content-section {
-    margin-bottom: 3rem;
-}
-
-.content-section:last-child {
-    margin-bottom: 0;
-}
-
-.section-title {
-    color: #4A90E2;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.section-subtitle {
-    color: #666;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-
-.section-text {
-    color: #555;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-} */
 
 /* Education Timeline */
 .education-item {
