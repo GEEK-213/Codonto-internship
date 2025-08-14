@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faaris Khan - AI & Web Development Professional</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Faaris Khan - Aspiring AI & Web Development Professional. BCA student with experience in AI, web development, and digital marketing.">
+    <meta name="keywords" content="Faaris Khan, AI, Web Development, BCA, Resume, Portfolio, Lenovo Leap, Vanilla Kart">
+    <meta name="author" content="Faaris Khan">
+    <title>Faaris Khan - Resume | AI & Web Development Professional</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts - Inter family -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS - Day 3 Enhanced Styling -->
+    <link rel="stylesheet" href="style_day3.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>">
 </head>
 <body>
+    <!-- Skip to content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
+    <!-- Header with Navigation -->
     <header class="header" role="banner">
-        <nav class="nav" role="navigation" aria-label="Resume navigation">
+        <nav class="nav container" role="navigation" aria-label="Main navigation">
             <ul class="nav-list">
-                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                <li><a href="#about" class="nav-link active" data-section="about">About</a></li>
                 <li><a href="#education" class="nav-link" data-section="education">Education</a></li>
                 <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
                 <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
@@ -22,191 +38,255 @@
         </nav>
     </header>
 
-    <main id="main-content" class="main-container">
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
         <aside class="sidebar" role="complementary">
-            <div class="profile-section">
-                <div class="profile-photo" aria-hidden="true">
-                    <div class="photo-placeholder">
-                        <span>FK</span>
-                    </div>
+            <!-- Profile Section -->
+            <section class="profile-section">
+                <div class="photo-placeholder" aria-label="Faaris Khan profile photo placeholder">
+                    FK
                 </div>
                 <h1 class="profile-name">Faaris Khan</h1>
                 <p class="profile-title">Aspiring AI & Web Development Professional</p>
-            </div>
+            </section>
 
-            <div class="contact-info">
+            <!-- Contact Information -->
+            <section class="contact-info">
                 <h2 class="section-title">Contact</h2>
                 <div class="contact-item">
                     <span class="contact-label">Email</span>
-                    <a href="mailto:faariskhan213@gmail.com" class="contact-value">faariskhan213@gmail.com</a>
+                    <a href="mailto:faariskhan213@gmail.com" class="contact-value" 
+                       aria-label="Send email to Faaris Khan">faariskhan213@gmail.com</a>
                 </div>
                 <div class="contact-item">
                     <span class="contact-label">Phone</span>
-                    <a href="tel:+919763435213" class="contact-value">+91 9763435213</a>
+                    <a href="tel:+919763435213" class="contact-value" 
+                       aria-label="Call Faaris Khan">+91 9763435213</a>
                 </div>
                 <div class="contact-item">
                     <span class="contact-label">Location</span>
                     <span class="contact-value">Durgabhat, Ponda-Goa</span>
                 </div>
-            </div>
+            </section>
 
-            <div class="soft-skills">
+            <!-- Key Strengths -->
+            <section class="soft-skills">
                 <h2 class="section-title">Key Strengths</h2>
                 <ul class="skills-list">
                     <li class="skill-item">Problem Solving</li>
                     <li class="skill-item">Creativity</li>
                     <li class="skill-item">Team Collaboration</li>
                     <li class="skill-item">Communication</li>
+                    <li class="skill-item">Adaptability</li>
+                    <li class="skill-item">Leadership</li>
                 </ul>
-            </div>
+            </section>
         </aside>
 
-        <div class="content">
-            <section id="about" class="section about-section">
-                <h2 class="section-heading">About</h2>
+        <!-- Main Content -->
+        <main id="main-content" class="content" role="main">
+            <!-- About Section -->
+            <section id="about" class="section">
                 <div class="card">
+                    <h2 class="section-heading">About</h2>
                     <p class="about-text">
                         Passionate final-year BCA student with hands-on experience in AI development and web technologies. 
-                        Currently expanding my expertise through practical internships at Lenovo Leap and Vanilla Kart, 
-                        where I'm applying AI-driven solutions and modern web development practices. Dedicated to leveraging 
-                        technology to solve real-world problems and create impactful digital experiences.
+                        Currently expanding my expertise through practical internships at <strong>Lenovo Leap</strong> and 
+                        <strong>Vanilla Kart</strong>, where I'm applying AI-driven solutions and modern web development practices.
+                    </p>
+                    <p class="about-text">
+                        Dedicated to leveraging technology to solve real-world problems and create impactful digital experiences. 
+                        My goal is to bridge the gap between innovative AI solutions and user-friendly web applications, 
+                        contributing to meaningful projects that make a difference.
                     </p>
                 </div>
             </section>
 
-            <section id="education" class="section education-section">
-                <h2 class="section-heading">Education</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content card">
-                            <h3 class="degree">Bachelor of Computer Applications (BCA)</h3>
-                            <p class="institution">GVM's GGPR College of Commerce & Economics</p>
-                            <p class="period">2023-2026</p>
-                            <p class="status">Currently Pursuing - Final Year</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content card">
-                            <h3 class="degree">Higher Secondary (Commerce)</h3>
-                            <p class="institution">P.E.S Higher Secondary School of Science and Arts</p>
-                            <p class="period">2021-2023</p>
-                            <p class="status">Completed</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="skills" class="section skills-section">
-                <h2 class="section-heading">Technical Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-category card">
-                        <h3 class="category-title">Programming & Development</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">C</span>
-                            <span class="skill-tag">Java</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">PHP</span>
-                            <span class="skill-tag">SQL</span>
-                        </div>
-                    </div>
-                    <div class="skill-category card">
-                        <h3 class="category-title">Data Analytics & Tools</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Excel (Data Analysis)</span>
-                            <span class="skill-tag">Basic Data Analytics</span>
-                            <span class="skill-tag">SQL Queries</span>
-                        </div>
-                    </div>
-                    <div class="skill-category card">
-                        <h3 class="category-title">Web & UI/UX</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Web Development</span>
-                            <span class="skill-tag">Figma</span>
-                            <span class="skill-tag">Responsive Design</span>
-                        </div>
-                    </div>
-                    <div class="skill-category card">
-                        <h3 class="category-title">Multimedia & Design</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">GIMP</span>
-                            <span class="skill-tag">Audacity</span>
-                            <span class="skill-tag">Filmora</span>
-                        </div>
-                    </div>
-                    <div class="skill-category card">
-                        <h3 class="category-title">Digital Marketing & SEO</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Social Media Strategy</span>
-                            <span class="skill-tag">Content Optimization</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="experience" class="section experience-section">
-                <h2 class="section-heading">Experience</h2>
-                <div class="experience-list">
-                    <div class="experience-item card">
-                        <div class="experience-header">
-                            <h3 class="role">AI Intern</h3>
-                            <span class="period">2025 - Present</span>
-                        </div>
-                        <p class="company">Lenovo Leap Internship Program</p>
-                        <span class="status ongoing">Ongoing</span>
-                        <p class="description">
-                            Learning and applying AI-driven solutions in real-world scenarios. Working with machine learning algorithms, 
-                            data analysis, and practical AI implementations.
-                        </p>
-                        <div class="experience-skills">
-                            <span class="skill-badge">Python Programming</span>
-                            <span class="skill-badge">AI/ML Development</span>
-                            <span class="skill-badge">Data Analysis</span>
-                            <span class="skill-badge">Problem Solving</span>
-                        </div>
-                    </div>
-                    <div class="experience-item card">
-                        <div class="experience-header">
-                            <h3 class="role">SkillUp Intern</h3>
-                            <span class="period">2024 (6 Months)</span>
-                        </div>
-                        <p class="company">Vanilla Kart</p>
-                        <span class="status completed">Completed</span>
-                        <p class="description">
-                            Worked on projects related to web development, digital marketing, management, PR, and startup strategies. 
-                            Gained hands-on experience with SEO, social media strategy, and client communication.
-                        </p>
-                        <div class="experience-skills">
-                            <span class="skill-badge">Web Development</span>
-                            <span class="skill-badge">Digital Marketing</span>
-                            <span class="skill-badge">SEO Optimization</span>
-                            <span class="skill-badge">Social Media Strategy</span>
-                            <span class="skill-badge">Client Communication</span>
-                            <span class="skill-badge">Project Management</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="section contact-section">
-                <h2 class="section-heading">Let's Connect</h2>
+            <!-- Education Section -->
+            <section id="education" class="section">
                 <div class="card">
+                    <h2 class="section-heading">Education</h2>
+                    <div class="timeline">
+                        <article class="timeline-item">
+                            <div class="timeline-marker" aria-hidden="true"></div>
+                            <div class="timeline-content">
+                                <h3 class="degree">Bachelor of Computer Applications (BCA)</h3>
+                                <p class="institution">GVM's GGPR College of Commerce & Economics</p>
+                                <p class="period">2023-2026</p>
+                                <span class="status">Currently Pursuing - Final Year</span>
+                                <p class="description">
+                                    Comprehensive computer science curriculum covering programming, database management, 
+                                    software development, and emerging technologies. Focus on practical application of 
+                                    theoretical concepts through hands-on projects and internships.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="timeline-item">
+                            <div class="timeline-marker" aria-hidden="true"></div>
+                            <div class="timeline-content">
+                                <h3 class="degree">Higher Secondary (Commerce)</h3>
+                                <p class="institution">P.E.S Higher Secondary School of Science and Arts</p>
+                                <p class="period">2021-2023</p>
+                                <span class="status completed">Completed</span>
+                                <p class="description">
+                                    Commerce stream with focus on business fundamentals, economics, and analytical thinking. 
+                                    Built strong foundation in logical reasoning and problem-solving approaches.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Skills Section -->
+            <section id="skills" class="section">
+                <div class="card">
+                    <h2 class="section-heading">Technical Skills</h2>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3 class="category-title">Programming & Development</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">C</span>
+                                <span class="skill-tag">Java</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">PHP</span>
+                                <span class="skill-tag">SQL</span>
+                                <span class="skill-tag">HTML5</span>
+                                <span class="skill-tag">CSS3</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">Data Analytics & Tools</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Excel (Data Analysis)</span>
+                                <span class="skill-tag">Basic Data Analytics</span>
+                                <span class="skill-tag">SQL Queries</span>
+                                <span class="skill-tag">Data Visualization</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">Web & UI/UX</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Web Development</span>
+                                <span class="skill-tag">Figma</span>
+                                <span class="skill-tag">Responsive Design</span>
+                                <span class="skill-tag">User Experience</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">Multimedia & Design</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">GIMP</span>
+                                <span class="skill-tag">Audacity</span>
+                                <span class="skill-tag">Filmora</span>
+                                <span class="skill-tag">Content Creation</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">Digital Marketing & SEO</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Social Media Strategy</span>
+                                <span class="skill-tag">Content Optimization</span>
+                                <span class="skill-tag">SEO Basics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Professional Experience Section -->
+            <section id="experience" class="section">
+                <div class="card">
+                    <h2 class="section-heading">Experience</h2>
+                    <div class="experience-list">
+                        <article class="experience-item">
+                            <div class="experience-header">
+                                <div class="experience-main">
+                                    <h3 class="role">AI Intern</h3>
+                                    <p class="company">Lenovo Leap Internship Program</p>
+                                </div>
+                                <div class="experience-meta">
+                                    <p class="period">2024 - Present</p>
+                                    <span class="status ongoing">Ongoing</span>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Learning and applying AI-driven solutions in real-world scenarios. Working with machine learning 
+                                algorithms, data analysis, and practical AI implementations. Gaining hands-on experience in Python 
+                                programming and AI development tools while contributing to innovative projects.
+                            </p>
+                            <div class="experience-skills">
+                                <span class="skill-badge">Python Programming</span>
+                                <span class="skill-badge">AI/ML Development</span>
+                                <span class="skill-badge">Data Analysis</span>
+                                <span class="skill-badge">Problem Solving</span>
+                                <span class="skill-badge">Research & Innovation</span>
+                            </div>
+                        </article>
+
+                        <article class="experience-item">
+                            <div class="experience-header">
+                                <div class="experience-main">
+                                    <h3 class="role">SkillUp Intern</h3>
+                                    <p class="company">Vanilla Kart</p>
+                                </div>
+                                <div class="experience-meta">
+                                    <p class="period">2024 (6 Months)</p>
+                                    <span class="status completed">Completed</span>
+                                </div>
+                            </div>
+                            <p class="description">
+                                Worked on projects related to web development, digital marketing, management, PR, and startup strategies. 
+                                Gained hands-on experience with SEO, social media strategy, and client communication. Contributed to 
+                                multiple client projects and internal process improvements.
+                            </p>
+                            <div class="experience-skills">
+                                <span class="skill-badge">Web Development</span>
+                                <span class="skill-badge">Digital Marketing</span>
+                                <span class="skill-badge">SEO Optimization</span>
+                                <span class="skill-badge">Social Media Strategy</span>
+                                <span class="skill-badge">Client Communication</span>
+                                <span class="skill-badge">Project Management</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section">
+                <div class="card">
+                    <h2 class="section-heading">Let's Connect</h2>
                     <p class="contact-text">
-                        I'm always interested in discussing new opportunities, collaborating on projects, 
-                        or connecting with fellow developers and AI enthusiasts.
+                        I'm always interested in discussing new opportunities, collaborating on projects, or connecting with 
+                        fellow developers and AI enthusiasts. Whether you're looking for someone to join your team, have a 
+                        project idea, or just want to chat about technology, I'd love to hear from you.
                     </p>
                     <div class="contact-details">
-                        <a href="mailto:faariskhan213@gmail.com" class="contact-link">faariskhan213@gmail.com</a>
-                        <a href="tel:+919763435213" class="contact-link">+91 9763435213</a>
+                        <a href="mailto:faariskhan213@gmail.com" class="contact-link" 
+                           aria-label="Send email to Faaris Khan">
+                           📧 faariskhan213@gmail.com
+                        </a>
+                        <a href="tel:+919763435213" class="contact-link" 
+                           aria-label="Call Faaris Khan">
+                           📱 +91 9763435213
+                        </a>
+                        <span class="contact-link">📍 Durgabhat, Ponda-Goa</span>
                     </div>
                 </div>
             </section>
-        </div>
-    </main>
+        </main>
+    </div>
 
+    <!-- JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
