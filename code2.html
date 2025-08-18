@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeMentor Pro – Futuristic AI Coding Coach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #0a0f1f);
+      background-size: 400% 400%;
+      animation: gradientBG 18s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      
+      width: 500px;
+      background: rgba(30,41,59,0.6);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 25px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .quick-examples {
+      flex: 1;
+    }
+
+    .example {
+      background: rgba(51,65,85,0.7);
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .example:hover {
+      background: rgba(71,85,105,0.8);
+      border: 1px solid #6366f1;
+      box-shadow: 0 0 15px rgba(99,102,241,0.5);
+    }
+
+    .sidebar-footer {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    /* Chat Area */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      width: 1000px;
+      align-items: center;
+    }
+
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-weight: 600;
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      width: 90%;
+    }
+
+    /* Chat bubbles */
+    .bot-message {
+      background: rgba(99,102,241,0.15);
+      border-left: 4px solid #6366f1;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 8px 0;
+      color: #cbd5e1;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .user-message {
+      background: rgba(20,184,166,0.15);
+      border-left: 4px solid #14b8a6;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 8px 0;
+      color: #fff;
+      text-align: right;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      margin: 8px;
+    }
+
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background: #6366f1;
+      border-radius: 50%;
+      animation: bounce 1.3s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Right Panel */
+    .details-panel {
+      width: 300px;
+      background: rgba(30,41,59,0.6);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 30px rgba(0,0,0,0.3);
+    }
+
+    .details-header {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-weight: 600;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .tab.active, .tab:hover {
+      background: linear-gradient(90deg,#6a11cb,#2575fc);
+      box-shadow: 0 0 12px rgba(106,17,203,0.6);
+    }
+
+    .tab-content {
+      padding: 14px;
+      flex: 1;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+  </style>
+  
+<!-- In your <head> tag -->
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<style>
+  #webchat .bpWebchat {
+    position: unset;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  #webchat .bpFab {
+    display: none;
+  }
+</style>
+
+
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">{ } CodeMentor </div>
+    <div class="quick-examples">
+      <div class="example">Q1: Explain API in simple words</div>
+      <div class="example">Q2: Connect PHP form to MySQL</div>
+      <div class="example">Q3: What to include in my portfolio</div>
+      <div class="example">Q4: Project idea: PHP + JavaScript</div>
+      <div class="example">Q5: MySQL: Unknown column</div>
+    </div>
+    <div class="sidebar-footer">© CodeMentor Pro — Built for students</div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area">
+    <div class="chat-header">💬 Chat with CodeMentor </div>
+    <div class="messages" id="webchat"></div> 
+  </div>
+
+  <!-- Right Panel -->
+  <div class="details-panel">
+    <div class="details-header">Response details</div>
+    <div class="tabs">
+      <div class="tab active">Steps</div>
+      <div class="tab">Code</div>
+      <div class="tab">Tips</div>
+    </div>
+    <div class="tab-content">
+      Answer format: Overview → Steps → Code → Tips.
+    </div>
+  </div>
+
+
+<!-- In your <head> tag -->
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+<style>
+  #webchat .bpWebchat {
+    position: unset;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  #webchat .bpFab {
+    display: none;
+  }
+</style>
+
+
+
+<!-- In your <body> tag -->
+<script>
+  window.botpress.on("webchat:ready", () => {
+    window.botpress.open();
+  });
+  window.botpress.init({
+  "botId": "0b1c554e-bf61-45f0-9c52-2ffb8a4c424c",
+  "configuration": {
+    "version": "v1",
+    "botName": "codeMentor",
+    "botDescription": "🚀 Your AI-powered coding coach — futuristic, fast, and student-first. Debug, learn, and build smarter!.",
+    "website": {},
+    "email": {},
+    "phone": {},
+    "termsOfService": {},
+    "privacyPolicy": {},
+    "color": "#3276EA",
+    "variant": "solid",
+    "headerVariant": "glass",
+    "themeMode": "light",
+    "fontFamily": "inter",
+    "radius": 4,
+    "feedbackEnabled": true,
+    
+  },
+  "clientId": "c2232d34-dd63-42b4-8f64-390654e98fe6",
+  "selector": "#webchat"
+});
+</script>
+
+
+</body>
+</html>

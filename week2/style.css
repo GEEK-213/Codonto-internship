@@ -79,7 +79,7 @@ body {
     position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 1001;
+    z-index: 1000;
     background: var(--surface);
     border: 2px solid var(--primary);
     border-radius: 50%;
