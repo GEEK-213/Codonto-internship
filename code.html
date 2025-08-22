@@ -1,656 +1,566 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CodeMentor Pro — AI-Powered Full-Stack Coach</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg-0: #071026;
-    --bg-1: #0f1724;
-    --card: #0b1220;
-    --muted: #96a0b8;
-    --accent: #00C2A8;
-    --grad1: #4B6CB7;
-    --grad2: #8A2BE2;
-    --glass: rgba(255,255,255,0.03);
-    --radius: 14px;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    background: linear-gradient(180deg,var(--bg-0),var(--bg-1) 60%);
-    color:#E6EEF8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    padding:20px;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faaris Khan - AI & Web Development Professional Resume">
+    <title>Faaris Khan - Resume | AI & Web Development Professional</title>
 
-  /* Header */
-  header.app-header{
-    display:flex; align-items:center; gap:14px; padding:14px; border-radius:12px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    backdrop-filter: blur(6px); margin-bottom:16px;
-  }
-  .brand{
-    display:flex; align-items:center; gap:12px;
-  }
-  .logo-mark{
-    width:46px; height:46px; border-radius:12px; display:grid; place-items:center;
-    background: linear-gradient(135deg, var(--grad1), var(--grad2));
-    box-shadow: 0 6px 18px rgba(74,58,255,0.12);
-  }
-  .logo-mark svg{filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45))}
-  h1{font-size:18px;margin:0}
-  p.subtitle{margin:0;color:var(--muted);font-size:13px}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  nav.top-nav{margin-left:auto; display:flex; gap:12px; align-items:center}
-  .nav-btn{background:transparent;border:0;color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer}
-  .nav-btn.active{background:linear-gradient(90deg,var(--grad1),var(--grad2)); color:#fff; font-weight:600;}
+    <!-- Enhanced Tailwind Configuration for Day 3 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in-right': 'slideInRight 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce-gentle': 'bounceGentle 0.6s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(0)' }
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        },
+                        bounceGentle: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' }
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
 
-  /* Layout grid */
-  .layout{
-    display:grid; grid-template-columns:260px 1fr 340px; gap:18px; max-width:1200px; margin:0 auto;
-  }
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  /* Left sidebar (examples + controls) */
-  .sidebar{
-    background:var(--card); border-radius:var(--radius); padding:12px; height:72vh; overflow:auto;
-  }
-  .sidebar h3{margin:0 0 10px 0; font-size:13px; color:#F3F7FF}
-  .example{
-    display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; cursor:pointer;
-    transition: background .15s;
-  }
-  .example:hover{background:rgba(255,255,255,0.02)}
-  .avatar{
-    width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-weight:700;color:#fff;
-    font-size:13px;
-  }
-  .small-muted{color:var(--muted); font-size:13px}
-  .controls{margin-top:12px;display:flex;gap:8px}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="d3.css">
 
-  /* Main chat */
-  .chat{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-radius:var(--radius); padding:12px; height:72vh; display:flex; flex-direction:column;
-  }
-  .messages{flex:1; overflow:auto; padding-right:8px; display:flex; flex-direction:column; gap:10px}
-  .msg{
-    max-width:78%; padding:12px 14px; border-radius:12px; line-height:1.35; animation: fadeIn .18s ease;
-  }
-  .msg.me{align-self:flex-end; background:#07132a; border:1px solid rgba(255,255,255,0.03)}
-  .msg.bot{background:linear-gradient(180deg, rgba(75,108,183,0.12), rgba(138,43,226,0.06)); border:1px solid rgba(138,43,226,0.07)}
-  .msg strong{display:block}
-  .assistant-format{display:inline-block;margin-top:8px;padding:6px 8px;background:rgba(0,0,0,0.22);border-radius:8px;color:var(--muted);font-size:12px}
+    <!-- Theme detection script -->
+    <script>
+        // Detect system theme preference and saved theme
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  .composer{display:flex; gap:8px; margin-top:10px; align-items:flex-end}
-  textarea#input{
-    flex:1; min-height:56px; resize:none; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);
-    background:var(--glass); color:inherit; font-size:14px;
-  }
-  button.send{background:linear-gradient(90deg,var(--grad1),var(--grad2)); border:0; color:white; padding:12px 14px; border-radius:12px; cursor:pointer}
-  .meta{font-size:12px;color:var(--muted); margin-top:6px}
-
-  /* Right panel (tabs) */
-  .sidepanel{ background:var(--card); border-radius:var(--radius); padding:12px; height:72vh; overflow:auto;}
-  .tabs{display:flex; gap:8px; margin-bottom:10px}
-  .tab{padding:8px 10px;border-radius:10px;cursor:pointer;color:var(--muted); background:transparent; border:1px solid transparent}
-  .tab.active{background:linear-gradient(90deg,var(--grad1),var(--grad2)); color:#fff; font-weight:600; border:1px solid rgba(255,255,255,0.04)}
-  .panel{background:transparent;border-radius:10px;padding:8px}
-  pre.code-block{background:#051226;padding:10px;border-radius:10px;color:#CBE7FF;overflow:auto;max-height:42vh}
-  ol.steps{color:var(--muted); margin-left:16px}
-  ul.tips{color:var(--muted); margin-left:16px}
-  .small-note{font-size:13px;color:var(--muted);margin-top:8px}
-
-  /* Resources & About layout (full-width modal-ish) */
-  .resources-list{display:flex;flex-direction:column; gap:8px}
-  .resource{padding:10px;border-radius:8px;background:rgba(255,255,255,0.02); color:var(--muted)}
-
-  /* footer */
-  footer{max-width:1200px;margin:16px auto 0; color:var(--muted); font-size:13px}
-
-  /* Animations & responsive */
-  @keyframes fadeIn{from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:none}}
-  @media(max-width:980px){
-    .layout{grid-template-columns:1fr; gap:12px}
-    .sidebar, .sidepanel{display:none}
-    .chat{height:auto}
-  }
-</style>
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
-<body>
-  <header class="app-header" role="banner">
-    <div class="brand">
-      <div class="logo-mark" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M7 3C5 5 6 8 6 8v8s-1 3 1 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3c2 2 1 5 1 5v8s1 3-1 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div>
-        <h1>{ } CodeMentor Pro</h1>
-        <p class="subtitle">AI-powered full-stack coach — friendly, India-first</p>
-      </div>
+<body class="font-sans bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Dark Mode Toggle Button -->
+    <button id="theme-toggle" 
+            class="fixed top-4 right-4 z-50 w-12 h-12 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+            aria-label="Toggle dark mode">
+        <!-- Sun Icon (Light Mode) -->
+        <svg class="w-5 h-5 text-slate-700 dark:hidden group-hover:text-brand-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+        </svg>
+
+        <!-- Moon Icon (Dark Mode) -->
+        <svg class="w-5 h-5 text-slate-300 hidden dark:block group-hover:text-brand-400 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
+        <nav class="container mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <div class="text-xl font-bold bg-gradient-to-r from-brand-700 to-brand-500 bg-clip-text text-transparent">
+                FK
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden md:flex items-center space-x-8">
+                <li><a href="#about" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">About</a></li>
+                <li><a href="#education" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Education</a></li>
+                <li><a href="#skills" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Skills</a></li>
+                <li><a href="#experience" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Experience</a></li>
+                <li><a href="#contact" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" aria-label="Toggle mobile menu">
+                <svg class="w-6 h-6 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path class="menu-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path class="menu-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Progress Bar -->
+        <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-brand-600 to-brand-500 transition-all duration-100 origin-left" id="scroll-progress" style="width: 0%; transform: scaleX(0);"></div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden opacity-0 invisible transition-all duration-300">
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu-panel" class="fixed right-0 top-0 h-full w-80 max-w-sm bg-white dark:bg-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 border-l border-slate-200 dark:border-slate-700">
+
+            <!-- Menu Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <div class="text-lg font-semibold text-slate-800 dark:text-slate-200">Navigation</div>
+                <button id="mobile-menu-close" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
+                    <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menu Items -->
+            <nav class="p-6">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#about" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#education" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Education</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Skills</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#experience" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Experience</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Menu Footer -->
+            <div class="absolute bottom-6 left-6 right-6">
+                <div class="text-center">
+                    <div class="text-sm text-slate-500 dark:text-slate-400 mb-3">Connect with me</div>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://linkedin.com/in/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Li</span>
+                        </a>
+                        <a href="https://github.com/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Gh</span>
+                        </a>
+                        <a href="https://twitter.com/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Tw</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <nav class="top-nav" aria-label="Main navigation">
-      <button class="nav-btn active" id="nav-chat">Chat</button>
-      <button class="nav-btn" id="nav-resources">Resources</button>
-      <button class="nav-btn" id="nav-about">About</button>
-    </nav>
-  </header>
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 lg:px-8 pt-8 pb-12 max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-[320px,1fr] gap-6 lg:gap-12">
 
-  <main class="layout" role="main">
-    <!-- Sidebar -->
-    <aside class="sidebar" aria-label="Examples & Controls">
-      <h3>Quick examples</h3>
+            <!-- Sidebar -->
+            <aside class="order-2 lg:order-1 lg:sticky lg:top-24 h-fit">
+                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
 
-      <div class="example" data-idx="0" onclick="loadExample(0)">
-        <div class="avatar" style="background:linear-gradient(135deg,var(--grad1),var(--grad2))">Q1</div>
-        <div>
-          <div><strong>Explain API in simple words</strong></div>
-          <div class="small-muted">Waiter analogy + Google Maps example</div>
+                    <!-- Profile Section -->
+                    <div class="text-center mb-8 pb-6 border-b border-slate-100 dark:border-slate-700">
+                        <!-- Profile Photo Placeholder -->
+                        <div class="w-24 h-24 lg:w-28 lg:h-28 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-600 to-brand-500 shadow-lg flex items-center justify-center relative group overflow-hidden">
+                            <span class="text-2xl lg:text-3xl font-bold text-white relative z-10">FK</span>
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        </div>
+
+                        <h1 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-2">Faaris Khan</h1>
+                        <p class="text-base lg:text-lg text-brand-600 dark:text-brand-400 font-medium mb-4">Aspiring AI Professional</p>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="space-y-4">
+                        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Contact</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📧</span>
+                                <a href="mailto:faariskhan213@gmail.com" class="hover:underline">faariskhan213@gmail.com</a>
+                            </div>
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📱</span>
+                                <a href="tel:+919763435213" class="hover:underline">+91 9763435213</a>
+                            </div>
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📍</span>
+                                <span>Durgabhat, Ponda-Goa</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700">
+                        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Quick Stats</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                <div class="text-lg font-bold text-brand-600 dark:text-brand-400">3.8</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400">GPA</div>
+                            </div>
+                            <div class="text-center p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                <div class="text-lg font-bold text-brand-600 dark:text-brand-400">2024</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400">Graduate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <section class="order-1 lg:order-2 space-y-6 lg:space-y-8">
+
+                <!-- About Section -->
+                <section id="about" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">About</h2>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-3 gap-3 lg:gap-6 mb-8">
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">2</div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Internships</div>
+                        </div>
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">15</div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Projects</div>
+                        </div>
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">8</div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Skills</div>
+                        </div>
+                    </div>
+
+                    <!-- About Text -->
+                    <div class="prose prose-lg max-w-none">
+                        <p class="text-base lg:text-lg leading-relaxed text-slate-600 dark:text-slate-300 mb-6">
+                            Passionate final-year BCA student with hands-on experience in AI development and web technologies. 
+                            Currently expanding my expertise through practical internships at 
+                            <strong class="text-brand-600 dark:text-brand-400 font-semibold">Lenovo Leap</strong> and 
+                            <strong class="text-brand-600 dark:text-brand-400 font-semibold">Vanilla Kart</strong>, where I'm applying AI-driven solutions and modern web development practices.
+                        </p>
+
+                        <p class="text-base lg:text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+                            Dedicated to leveraging technology to solve real-world problems and create impactful digital experiences. 
+                            My goal is to bridge the gap between innovative AI solutions and user-friendly web applications.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Education Section -->
+                <section id="education" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Education</h2>
+
+                    <!-- Education Timeline -->
+                    <div class="relative">
+                        <!-- Timeline Line -->
+                        <div class="absolute left-6 top-8 bottom-8 w-px bg-gradient-to-b from-brand-500 to-brand-300 dark:from-brand-400 dark:to-brand-600"></div>
+
+                        <div class="space-y-8">
+                            <!-- Current Education -->
+                            <div class="relative pl-12">
+                                <div class="absolute left-3 top-2 w-6 h-6 bg-brand-500 dark:bg-brand-400 rounded-full border-4 border-white dark:border-slate-800 shadow-lg"></div>
+                                <div class="bg-brand-50 dark:bg-brand-900/20 rounded-xl p-6 hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">Bachelor of Computer Applications (BCA)</h3>
+                                    <p class="text-brand-600 dark:text-brand-400 font-medium mb-2">GVM's GGPR College of Commerce & Economics</p>
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">2023-2026</span>
+                                        <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full">Final Year</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                        Comprehensive computer science curriculum covering programming, database management, 
+                                        software development, and emerging technologies with focus on practical applications.
+                                    </p>
+                                    <!-- Progress Bar -->
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-1000 ease-out" style="width: 75%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-brand-600 dark:text-brand-400">75% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Previous Education -->
+                            <div class="relative pl-12">
+                                <div class="absolute left-3 top-2 w-6 h-6 bg-green-500 dark:bg-green-400 rounded-full border-4 border-white dark:border-slate-800 shadow-lg"></div>
+                                <div class="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors duration-200">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">Higher Secondary (Commerce)</h3>
+                                    <p class="text-green-600 dark:text-green-400 font-medium mb-2">P.E.S Higher Secondary School of Science and Arts</p>
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">2021-2023</span>
+                                        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded-full">Completed</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        Commerce stream with focus on business fundamentals, economics, and analytical thinking 
+                                        that provides strong foundation for technology business understanding.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section id="skills" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Technical Skills</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Programming Languages -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-brand-500 rounded-full"></span>
+                                <span>Programming Languages</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Python</span>
+                                <span class="skill-tag-enhanced">JavaScript</span>
+                                <span class="skill-tag-enhanced">Java</span>
+                                <span class="skill-tag-enhanced">C</span>
+                                <span class="skill-tag-enhanced">SQL</span>
+                                <span class="skill-tag-enhanced">PHP</span>
+                            </div>
+                        </div>
+
+                        <!-- Web Technologies -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                                <span>Web Technologies</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">React</span>
+                                <span class="skill-tag-enhanced">HTML5</span>
+                                <span class="skill-tag-enhanced">CSS3</span>
+                                <span class="skill-tag-enhanced">Tailwind CSS</span>
+                                <span class="skill-tag-enhanced">Node.js</span>
+                            </div>
+                        </div>
+
+                        <!-- Tools & Platforms -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+                                <span>Tools & Platforms</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Git</span>
+                                <span class="skill-tag-enhanced">VS Code</span>
+                                <span class="skill-tag-enhanced">Excel</span>
+                                <span class="skill-tag-enhanced">Figma</span>
+                                <span class="skill-tag-enhanced">Linux</span>
+                            </div>
+                        </div>
+
+                        <!-- Soft Skills -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-orange-500 rounded-full"></span>
+                                <span>Core Competencies</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Problem Solving</span>
+                                <span class="skill-tag-enhanced">Team Work</span>
+                                <span class="skill-tag-enhanced">Communication</span>
+                                <span class="skill-tag-enhanced">Leadership</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Experience Section -->
+                <section id="experience" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Experience</h2>
+
+                    <div class="space-y-8">
+                        <!-- Current Internship -->
+                        <div class="group">
+                            <div class="relative p-6 bg-gradient-to-r from-brand-50 to-blue-50 dark:from-brand-900/20 dark:to-blue-900/20 rounded-2xl border border-brand-100 dark:border-brand-800 hover:shadow-lg transition-all duration-300">
+                                <!-- Status Badge -->
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full flex items-center space-x-1">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                        <span>Ongoing</span>
+                                    </span>
+                                </div>
+
+                                <div class="pr-20">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">AI Intern</h3>
+                                    <p class="text-brand-600 dark:text-brand-400 font-medium mb-2">Lenovo Leap Internship Program</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">2024 - Present</p>
+                                </div>
+
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Learning and applying AI-driven solutions in real-world scenarios. Working with machine learning 
+                                    algorithms, data analysis, and practical AI implementations to solve business challenges.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="experience-tag-enhanced">Python Programming</span>
+                                    <span class="experience-tag-enhanced">AI/ML Development</span>
+                                    <span class="experience-tag-enhanced">Data Analysis</span>
+                                    <span class="experience-tag-enhanced">Problem Solving</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Internship -->
+                        <div class="group">
+                            <div class="relative p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-100 dark:border-green-800 hover:shadow-lg transition-all duration-300">
+                                <!-- Status Badge -->
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium rounded-full">
+                                        Completed
+                                    </span>
+                                </div>
+
+                                <div class="pr-20">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">SkillUp Intern</h3>
+                                    <p class="text-green-600 dark:text-green-400 font-medium mb-2">Vanilla Kart</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">2024 (6 Months)</p>
+                                </div>
+
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Worked on diverse projects spanning web development, digital marketing, management, PR, and startup strategies. 
+                                    Gained comprehensive hands-on experience with SEO optimization and social media strategy development.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="experience-tag-enhanced">Web Development</span>
+                                    <span class="experience-tag-enhanced">Digital Marketing</span>
+                                    <span class="experience-tag-enhanced">SEO Optimization</span>
+                                    <span class="experience-tag-enhanced">Social Media Strategy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-6">Let's Connect</h2>
+
+                    <p class="text-base lg:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
+                        I'm always interested in discussing new opportunities, collaborating on projects, or connecting with 
+                        fellow developers and AI enthusiasts. Feel free to reach out!
+                    </p>
+
+                    <!-- Contact Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <a href="mailto:faariskhan213@gmail.com" 
+                           class="flex items-center space-x-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-700 dark:hover:text-brand-300 transition-all duration-200 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <span class="text-white text-xl">📧</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Email</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">faariskhan213@gmail.com</div>
+                            </div>
+                        </a>
+
+                        <a href="tel:+919763435213" 
+                           class="flex items-center space-x-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-700 dark:hover:text-brand-300 transition-all duration-200 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <span class="text-white text-xl">📱</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Phone</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">+91 9763435213</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="text-center">
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mb-4">Find me on social media</div>
+                        <div class="flex justify-center space-x-4">
+                            <a href="https://linkedin.com/in/faariskhan" class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-200 shadow-lg hover:shadow-xl">
+                                <span class="font-semibold">Li</span>
+                            </a>
+                            <a href="https://github.com/faariskhan" class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-200 shadow-lg hover:shadow-xl">
+                                <span class="font-semibold">Gh</span>
+                            </a>
+                            <a href="https://twitter.com/faariskhan" class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-200 shadow-lg hover:shadow-xl">
+                                <span class="font-semibold">Tw</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </section>
         </div>
-      </div>
+    </main>
 
-      <div class="example" data-idx="1" onclick="loadExample(1)">
-        <div class="avatar" style="background:linear-gradient(135deg,#8A2BE2,#B23EFF)">Q2</div>
-        <div>
-          <div><strong>Connect PHP form to MySQL</strong></div>
-          <div class="small-muted">mysqli_connect, prepared statements</div>
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" 
+            class="fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-r from-brand-600 to-brand-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 invisible z-40">
+        <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-700 py-8 text-center text-sm text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50">
+        <div class="container mx-auto px-4">
+            <p>&copy; <span id="current-year"></span> Faaris Khan. All rights reserved.</p>
+         
         </div>
-      </div>
+    </footer>
 
-      <div class="example" data-idx="2" onclick="loadExample(2)">
-        <div class="avatar" style="background:linear-gradient(135deg,#00C2A8,#00E0C2)">Q3</div>
-        <div>
-          <div><strong>What to include in my portfolio</strong></div>
-          <div class="small-muted">About, Skills, Projects, Contact</div>
-        </div>
-      </div>
-
-      <div class="example" data-idx="3" onclick="loadExample(3)">
-        <div class="avatar" style="background:linear-gradient(135deg,#4B6CB7,#8A2BE2)">Q4</div>
-        <div>
-          <div><strong>Project idea: PHP + JavaScript</strong></div>
-          <div class="small-muted">Online quiz system with leaderboard</div>
-        </div>
-      </div>
-
-      <div class="example" data-idx="4" onclick="loadExample(4)">
-        <div class="avatar" style="background:linear-gradient(135deg,#FF5E8A,#FF7FB3)">Q5</div>
-        <div>
-          <div><strong>MySQL: Unknown column</strong></div>
-          <div class="small-muted">Debugging checklist</div>
-        </div>
-      </div>
-
-      <div style="height:8px"></div>
-      <div class="controls">
-        <button class="nav-btn" id="clear-history">Clear history</button>
-        <button class="nav-btn" id="export-chat">Export</button>
-      </div>
-
-      <div style="height:12px"></div>
-      <div class="small-muted">Tip: Type any of the questions (or a similar phrase) in the chat and I’ll answer with Overview → Steps → Code → Tips.</div>
-    </aside>
-
-    <!-- Chat center -->
-    <section class="chat" aria-live="polite" aria-label="Chat area">
-      <div class="messages" id="messages" role="log" aria-atomic="false"></div>
-
-      <div class="composer" aria-label="Message composer">
-        <textarea id="input" placeholder="Ask: 'What is an API?' or 'How to connect PHP form to MySQL?'" aria-label="Message input"></textarea>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="send" id="sendBtn" title="Send (Enter)">Send</button>
-          <div class="meta" style="text-align:right">Enter = send · Shift+Enter = newline</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right-side panel -->
-    <aside class="sidepanel" id="sidepanel" aria-label="Answer details">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-weight:600">Response details</div>
-        <div style="font-size:13px;color:var(--muted)">Format: Overview → Steps → Code → Tips</div>
-      </div>
-
-      <div class="tabs" role="tablist" aria-label="Response tabs">
-        <div class="tab active" id="tab-steps" role="tab" onclick="switchTab('steps')">Steps</div>
-        <div class="tab" id="tab-code" role="tab" onclick="switchTab('code')">Code</div>
-        <div class="tab" id="tab-tips" role="tab" onclick="switchTab('tips')">Tips</div>
-      </div>
-
-      <div class="panel" id="panel-steps"><div class="small-muted">No selection yet — ask a question or click an example.</div></div>
-      <div class="panel hidden" id="panel-code"></div>
-      <div class="panel hidden" id="panel-tips"></div>
-    </aside>
-  </main>
-
-  <footer>
-    <div style="max-width:1200px;margin:0 auto;text-align:left;color:var(--muted)">&copy; CodeMentor Pro — Built for students. Data saved only in your browser.</div>
-  </footer>
-
-<script>
-/* ------------------------
-   Data: the five Q&A templates
-   flexible keywords arrays + full structured answer
-   ------------------------ */
-const knowledge = [
-  {
-    id: 'api',
-    keywords: ['api','what is api','explain api','what is an api','explain an api','what\'s an api','api simple'],
-    answer: {
-      overview: "An API is like a waiter in a restaurant — it takes your request to the kitchen (server) and brings back the response (data).",
-      steps: [
-        "Client makes a request (you order).",
-        "API (waiter) forwards the request to the server (kitchen).",
-        "Server processes and prepares data (cook the dish).",
-        "API returns the response to the client (waiter brings the food)."
-      ],
-      code: `// Example: using Google Maps geocoding API with fetch (browser)
-fetch('https://maps.googleapis.com/maps/api/geocode/json?address=Delhi&key=YOUR_API_KEY')
-  .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));`,
-      tips: [
-        "APIs let apps communicate without sharing internal details.",
-        "Read the API documentation to learn endpoints and limits.",
-        "Use API keys responsibly (don't commit them to public repos).",
-        "Free APIs (Google Maps free tier, OpenWeather) are great for practice."
-      ]
-    }
-  },
-
-  {
-    id: 'php-mysql',
-    keywords: ['php form mysql','connect php to mysql','php mysql','how to connect php form to mysql','php form to mysql','php mysqli_connect'],
-    answer: {
-      overview: "Create a PHP form that securely inserts user input into a MySQL database using prepared statements.",
-      steps: [
-        "Create a MySQL database and table (e.g., users with name and email).",
-        "Build an HTML form (method='post').",
-        "In PHP, use mysqli or PDO to connect to the database.",
-        "Use prepared statements to insert data and avoid SQL injection."
-      ],
-      code: `<!-- form.html -->
-<form action="submit.php" method="post">
-  <input name="name" required placeholder="Name">
-  <input name="email" type="email" required placeholder="Email">
-  <button type="submit">Submit</button>
-</form>
-
-<!-- submit.php -->
-<?php
-$conn = new mysqli('localhost','db_user','db_pass','db_name');
-if($conn->connect_error) die('Connection failed');
-
-$name = $_POST['name'];
-$email = $_POST['email'];
-
-$stmt = $conn->prepare("INSERT INTO users (name,email) VALUES (?, ?)");
-$stmt->bind_param('ss', $name, $email);
-$stmt->execute();
-$stmt->close();
-$conn->close();
-?>`,
-      tips: [
-        "Always validate & sanitize input both client- and server-side.",
-        "Prepared statements prevent SQL injection — use them.",
-        "Test locally (XAMPP/LAMP) before deploying.",
-        "Free hosting options: GitHub Pages for static frontends; InfinityFree for PHP apps (hobby)."
-      ]
-    }
-  },
-
-  {
-    id: 'portfolio',
-    keywords: ['portfolio','programming portfolio','first portfolio','what to include in portfolio','portfolio contents'],
-    answer: {
-      overview: "A first portfolio should highlight who you are, what you can do, and include 2–3 live projects with code and screenshots.",
-      steps: [
-        "About Me: short intro and your goals.",
-        "Skills: languages, frameworks, tools.",
-        "Projects: 2–3 showcase projects with description, tech used, repo link, and screenshots.",
-        "Education & Contact: college, certifications, email / LinkedIn."
-      ],
-      code: `# Simple folder structure
-portfolio/
-  index.html     # About + links
-  projects/      # each project page with README & screenshots
-  assets/        # images and CSS
-  resume.pdf`,
-      tips: [
-        "Host on GitHub Pages or Netlify (free).",
-        "Write clear READMEs explaining setup & challenges solved.",
-        "Add small demos and screenshots instead of just code.",
-        "Keep it concise — recruiters scan fast."
-      ]
-    }
-  },
-
-  {
-    id: 'php-js-project',
-    keywords: ['php js project','project idea php javascript','php + javascript project','quiz project','online quiz project'],
-    answer: {
-      overview: "Build an Online Quiz System: users login, take timed quizzes, and a leaderboard shows top scorers — it teaches frontend timers, AJAX, backend storage and authentication.",
-      steps: [
-        "Design DB: users, quizzes, questions, scores.",
-        "Create frontend with JS for quiz UI and timer.",
-        "Use AJAX/fetch to send/receive questions and save answers to PHP endpoints.",
-        "Implement leaderboard powered by server-side queries."
-      ],
-      code: `-- SQL (example)
-CREATE TABLE scores (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(100),
-  score INT,
-  taken_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`,
-      tips: [
-        "Start with a single quiz and 5–10 questions.",
-        "Use AJAX to load questions without page reloads.",
-        "Secure endpoints (validate on server) to avoid cheating.",
-        "Deploy frontend on Netlify and backend on a simple PHP host or shared host."
-      ]
-    }
-  },
-
-  {
-    id: 'unknown-column',
-    keywords: ['unknown column','mysql unknown column','unknown column error','unknown column in field list'],
-    answer: {
-      overview: "“Unknown column” usually means the column name in your query doesn't exist or is misspelled.",
-      steps: [
-        "Check for typos in the column name in your SQL query.",
-        "Confirm the column exists: use `DESCRIBE table_name;` or `SHOW COLUMNS FROM table_name;`",
-        "If you recently renamed or migrated columns, ensure code and DB schema match.",
-        "Watch out for quoting/backticks and accidental string usage instead of column name."
-      ],
-      code: `-- Debugging command
-DESCRIBE users;`,
-      tips: [
-        "Keep migrations in version control so schema changes are tracked.",
-        "Use consistent naming conventions (snake_case) to avoid confusion.",
-        "Log the final query (with values redacted) to see what was executed."
-      ]
-    }
-  }
-];
-
-/* ------------------------
-   Utility functions
-   ------------------------ */
-function saveChat(history){
-  try{ localStorage.setItem('codementor_history_v1', JSON.stringify(history)); }catch(e){}
-}
-function loadChat(){
-  try{ const d = localStorage.getItem('codementor_history_v1'); return d ? JSON.parse(d) : []; }catch(e){ return [];}
-}
-function clearChatStorage(){ localStorage.removeItem('codementor_history_v1'); }
-
-/* ------------------------
-   Chat rendering & state
-   ------------------------ */
-const messagesEl = document.getElementById('messages');
-const inputEl = document.getElementById('input');
-const sideSteps = document.getElementById('panel-steps');
-const sideCode = document.getElementById('panel-code');
-const sideTips  = document.getElementById('panel-tips');
-
-let chatHistory = loadChat(); // array of {role:'me'|'bot', text:..., meta?:{}}
-renderHistory();
-
-/* render saved messages */
-function renderHistory(){
-  messagesEl.innerHTML = '';
-  for(const m of chatHistory){
-    appendMessageToUI(m.role, m.text, false);
-  }
-  scrollBottom();
-}
-
-/* append message both to UI and history (and save) */
-function appendMessage(role, text, meta = {}){
-  chatHistory.push({role, text, meta});
-  saveChat(chatHistory);
-  appendMessageToUI(role, text, true);
-}
-function appendMessageToUI(role, text, animate=true){
-  const div = document.createElement('div');
-  div.className = 'msg ' + (role === 'me' ? 'me' : 'bot');
-  div.innerHTML = `<strong>${role === 'me' ? 'You' : 'CodeMentor Pro'}</strong><div style="margin-top:6px">${text}</div>` ;
-  messagesEl.appendChild(div);
-  if(animate) div.style.opacity = '0';
-  requestAnimationFrame(()=>{ div.style.opacity = '1'; });
-  scrollBottom();
-}
-function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
-
-/* ------------------------
-   Matching logic (flexible)
-   - assign score by counting keyword hits (simple but effective)
-   ------------------------ */
-function findBestMatch(userText){
-  const normalized = userText.toLowerCase().replace(/[^\w\s]/g,' ');
-  const words = normalized.split(/\s+/).filter(Boolean);
-  let best = {score:0, idx:-1};
-  for(let i=0;i<knowledge.length;i++){
-    const entry = knowledge[i];
-    // score by keyword presence or how many keyword tokens appear
-    let score = 0;
-    for(const kw of entry.keywords){
-      if(normalized.includes(kw)) score += 3;       // exact phrase match strong
-    }
-    // token overlap (looser)
-    for(const w of words){
-      for(const kw of entry.keywords){
-        if(kw.includes(w) || w.includes(kw)) score += 0.6;
-      }
-    }
-    // small boost if some important words present
-    const important = ['api','php','mysql','portfolio','quiz','unknown','column'];
-    for(const imp of important){ if(words.includes(imp) && entry.id.includes(imp)) score += 2; }
-    if(score > best.score){ best = {score, idx:i}; }
-  }
-  // threshold to avoid accidental matches
-  return best.score >= 2 ? knowledge[best.idx] : null;
-}
-
-/* ------------------------
-   Bot reply flow
-   ------------------------ */
-function replyTo(userText){
-  const match = findBestMatch(userText);
-  if(match){
-    // formatted answer: show overview in chat, and fill side panels
-    const ans = match.answer;
-    const markup = `<b>Overview:</b> ${escapeHtml(ans.overview)}<div class="assistant-format">Overview → Steps → Code → Tips</div>`;
-    appendMessage('bot', markup);
-    // render side tabs
-    renderSide(ans);
-  } else {
-    appendMessage('bot', escapeHtml("I don’t have a direct match for that yet. Ask in another way (example: 'What is an API?' or 'How to connect PHP form to MySQL?'), or I'll guide you step-by-step."));
-    clearSide();
-  }
-}
-
-/* ------------------------
-   Side panel rendering & tab logic
-   ------------------------ */
-function renderSide(ans){
-  // Steps
-  sideSteps.innerHTML = `<ol class="steps">${ans.steps.map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>`;
-  // Code
-  sideCode.innerHTML = `<pre class="code-block">${escapeHtml(ans.code)}</pre>`;
-  // Tips
-  sideTips.innerHTML = `<ul class="tips">${ans.tips.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>`;
-  // switch to Steps tab by default
-  switchTab('steps');
-}
-function clearSide(){
-  sideSteps.innerHTML = `<div class="small-muted">No structured answer available — try a suggested example or rephrase your question.</div>`;
-  sideCode.innerHTML = '';
-  sideTips.innerHTML = '';
-}
-
-/* tabs */
-function switchTab(name){
-  const allTabs = ['steps','code','tips'];
-  for(const t of allTabs){
-    document.getElementById('tab-'+t).classList.toggle('active', t === name);
-    document.getElementById('panel-'+t).classList.toggle('hidden', t !== name);
-  }
-}
-
-/* ------------------------
-   Input handling: send, Enter/Shift+Enter
-   ------------------------ */
-document.getElementById('sendBtn').addEventListener('click', onSend);
-inputEl.addEventListener('keydown', function(e){
-  if(e.key === 'Enter' && !e.shiftKey){
-    e.preventDefault();
-    onSend();
-  }
-});
-function onSend(){
-  const txt = inputEl.value.trim();
-  if(!txt) return;
-  appendMessage('me', escapeHtml(txt));
-  inputEl.value = '';
-  // emulate slight thinking delay
-  setTimeout(()=> replyTo(txt), 450);
-}
-
-/* ------------------------
-   Sidebar quick examples
-   ------------------------ */
-function loadExample(idx){
-  const ex = knowledge[idx];
-  const sampleQuestion = ex.keywords[0];
-  appendMessage('me', escapeHtml(sampleQuestion));
-  setTimeout(()=> replyTo(sampleQuestion), 250);
-}
-window.loadExample = loadExample;
-
-/* ------------------------
-   Nav: Chat / Resources / About
-   ------------------------ */
-const navChat = document.getElementById('nav-chat');
-const navResources = document.getElementById('nav-resources');
-const navAbout = document.getElementById('nav-about');
-
-navChat.addEventListener('click', ()=> { setActiveNav('chat'); });
-navResources.addEventListener('click', ()=> { setActiveNav('resources'); });
-navAbout.addEventListener('click', ()=> { setActiveNav('about'); });
-
-function setActiveNav(tab){
-  navChat.classList.toggle('active', tab==='chat');
-  navResources.classList.toggle('active', tab==='resources');
-  navAbout.classList.toggle('active', tab==='about');
-
-  // show/hide main pieces
-  const layout = document.querySelector('.layout');
-  const resourcesHtml = `
-    <aside class="sidebar" style="grid-column:1/-1;">
-      <h3>Resources — Free & student-friendly</h3>
-      <div class="resources-list">
-        <div class="resource"><strong>Free static hosting</strong><div class="small-muted">GitHub Pages, Netlify — host portfolios & frontend projects.</div></div>
-        <div class="resource"><strong>Free PHP / MySQL hosts</strong><div class="small-muted">InfinityFree (hobby), 000webhost — okay for practice.</div></div>
-        <div class="resource"><strong>Free APIs for practice</strong><div class="small-muted">OpenWeather, TheMealDB, Public-APIs list — great for small projects.</div></div>
-        <div class="resource"><strong>Indian student communities</strong><div class="small-muted">Search for 'GeeksforGeeks student', 'DSA India', and local college Discord/Telegram groups.</div></div>
-        <div class="resource"><strong>Resume & Interview</strong><div class="small-muted">Use simple templates (Markdown → PDF), practice mock interviews with peers, add GitHub project links.</div></div>
-      </div>
-    </aside>
-  `;
-  const aboutHtml = `
-    <aside class="sidebar" style="grid-column:1/-1;">
-      <h3>About CodeMentor Pro</h3>
-      <div class="small-muted">Designed for Indian CS & IT students (18–25). Tone: friendly, encouraging, step-by-step guidance. Saves conversation locally in your browser. Built as a prototype UI for the Lenovo Leap Internship Project — Week 5 AI Project Report: CodeMentor Pro.</div>
-    </aside>
-  `;
-
-  // remove any inserted full-width items
-  // (we'll simply toggle visibility of layout's children)
-  const sidebar = document.querySelector('.sidebar');
-  const chat = document.querySelector('.chat');
-  const sidepanel = document.querySelector('.sidepanel');
-
-  if(tab === 'chat'){
-    sidebar.style.display = '';
-    chat.style.display = '';
-    sidepanel.style.display = '';
-    // restore header nav active states handled above
-  } else if(tab === 'resources'){
-    // hide main columns and show resources full-width area
-    sidebar.style.display = 'none';
-    chat.style.display = 'none';
-    sidepanel.style.display = 'none';
-    // insert resources container after header if not present
-    if(!document.getElementById('resources-full')){
-      const node = document.createElement('div');
-      node.id = 'resources-full';
-      node.innerHTML = resourcesHtml;
-      document.querySelector('main.layout').insertBefore(node, document.querySelector('main.layout').firstChild);
-    }
-  } else if(tab === 'about'){
-    sidebar.style.display = 'none';
-    chat.style.display = 'none';
-    sidepanel.style.display = 'none';
-    if(!document.getElementById('about-full')){
-      const node = document.createElement('div');
-      node.id = 'about-full';
-      node.innerHTML = aboutHtml;
-      document.querySelector('main.layout').insertBefore(node, document.querySelector('main.layout').firstChild);
-    }
-  }
-
-  // remove resources or about if switching back to chat
-  if(tab === 'chat'){
-    const res = document.getElementById('resources-full'); if(res) res.remove();
-    const abt = document.getElementById('about-full'); if(abt) abt.remove();
-  } else {
-    // when moving to resources/about, ensure the other full-width removed
-    const res = document.getElementById('resources-full'); if(res && tab === 'about') res.remove();
-    const abt = document.getElementById('about-full'); if(abt && tab === 'resources') abt.remove();
-  }
-}
-
-/* ------------------------
-   Controls: clear history, export
-   ------------------------ */
-document.getElementById('clear-history').addEventListener('click', ()=> {
-  if(confirm('Clear chat history locally? This will remove saved messages in your browser.')) {
-    chatHistory = [];
-    saveChat(chatHistory);
-    messagesEl.innerHTML = '';
-    clearSide();
-  }
-});
-document.getElementById('export-chat').addEventListener('click', ()=> {
-  const text = chatHistory.map(m => `${m.role.toUpperCase()}: ${m.text.replace(/<[^>]*>/g,'')}`).join('\n\n');
-  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'codementor_chat.txt'; a.click();
-  URL.revokeObjectURL(url);
-});
-
-/* ------------------------
-   Small helpers
-   ------------------------ */
-function escapeHtml(str){
-  if(!str && str !== '') return '';
-  return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
-}
-
-/* initial UI */
-clearSide();
-switchTab('steps');
-setActiveNav('chat');
-scrollBottom();
-
-/* make knowledge click handlers (sidebar) */
-for(let i=0;i<knowledge.length;i++){
-  // already wired via loadExample, no further setup needed
-}
-</script>
+    <script src="script.js"></script>
 </body>
-</html>
