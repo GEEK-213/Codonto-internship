@@ -1,302 +1,564 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeMentor Pro – Futuristic AI Coding Coach</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faaris Khan - AI & Web Development Professional Resume">
+    <title>Faaris Khan - Resume | AI & Web Development Professional</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      color: #fff;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      background: linear-gradient(-45deg, #0f172a, #1e293b, #111827, #0a0f1f);
-      background-size: 400% 400%;
-      animation: gradientBG 18s ease infinite;
-    }
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+    <!-- Enhanced Tailwind Configuration for Day 3 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in-right': 'slideInRight 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce-gentle': 'bounceGentle 0.6s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(0)' }
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        },
+                        bounceGentle: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' }
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
 
-    /* Sidebar */
-    .sidebar {
-      
-      width: 500px;
-      background: rgba(30,41,59,0.6);
-      backdrop-filter: blur(16px);
-      border-right: 1px solid rgba(255,255,255,0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-    }
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    .logo {
-      font-weight: 600;
-      font-size: 20px;
-      margin-bottom: 25px;
-      background: linear-gradient(90deg, #6a11cb, #2575fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="d3.css">
 
-    .quick-examples {
-      flex: 1;
-    }
+    <!-- Theme detection script -->
+    <script>
+        // Detect system theme preference and saved theme
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    .example {
-      background: rgba(51,65,85,0.7);
-      margin: 8px 0;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      border: 1px solid transparent;
-    }
-
-    .example:hover {
-      background: rgba(71,85,105,0.8);
-      border: 1px solid #6366f1;
-      box-shadow: 0 0 15px rgba(99,102,241,0.5);
-    }
-
-    .sidebar-footer {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    /* Chat Area */
-    .chat-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: transparent;
-      width: 1000px;
-      align-items: center;
-    }
-
-    .chat-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      font-weight: 600;
-      text-align: center;
-      font-size: 18px;
-      letter-spacing: 0.5px;
-    }
-
-    .messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      width: 90%;
-    }
-
-    /* Chat bubbles */
-    .bot-message {
-      background: rgba(99,102,241,0.15);
-      border-left: 4px solid #6366f1;
-      padding: 10px;
-      border-radius: 10px;
-      margin: 8px 0;
-      color: #cbd5e1;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .user-message {
-      background: rgba(20,184,166,0.15);
-      border-left: 4px solid #14b8a6;
-      padding: 10px;
-      border-radius: 10px;
-      margin: 8px 0;
-      color: #fff;
-      text-align: right;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Typing indicator */
-    .typing-indicator {
-      display: flex;
-      gap: 4px;
-      margin: 8px;
-    }
-
-    .typing-indicator span {
-      width: 6px;
-      height: 6px;
-      background: #6366f1;
-      border-radius: 50%;
-      animation: bounce 1.3s infinite;
-    }
-
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
-    }
-
-    /* Right Panel */
-    .details-panel {
-      width: 300px;
-      background: rgba(30,41,59,0.6);
-      backdrop-filter: blur(16px);
-      border-left: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-      box-shadow: -4px 0 30px rgba(0,0,0,0.3);
-    }
-
-    .details-header {
-      padding: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      font-weight: 600;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      padding: 10px;
-    }
-
-    .tab {
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.1);
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.3s;
-    }
-
-    .tab.active, .tab:hover {
-      background: linear-gradient(90deg,#6a11cb,#2575fc);
-      box-shadow: 0 0 12px rgba(106,17,203,0.6);
-    }
-
-    .tab-content {
-      padding: 14px;
-      flex: 1;
-      font-size: 14px;
-      color: #cbd5e1;
-    }
-
-  </style>
-  
-<!-- In your <head> tag -->
-<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
-<style>
-  #webchat .bpWebchat {
-    position: unset;
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-    max-width: 100%;
-  }
-
-  #webchat .bpFab {
-    display: none;
-  }
-</style>
-
-
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
-<body>
+<body class="font-sans bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">{ } CodeMentor </div>
-    <div class="quick-examples">
-      <div class="example">Q1: Explain API in simple words</div>
-      <div class="example">Q2: Connect PHP form to MySQL</div>
-      <div class="example">Q3: What to include in my portfolio</div>
-      <div class="example">Q4: Project idea: PHP + JavaScript</div>
-      <div class="example">Q5: MySQL: Unknown column</div>
+    <!-- Dark Mode Toggle Button -->
+    <button id="theme-toggle" 
+            class="fixed top-4 right-4 z-50 w-12 h-12 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+            aria-label="Toggle dark mode">
+        <!-- Sun Icon (Light Mode) -->
+        <svg class="w-5 h-5 text-slate-700 dark:hidden group-hover:text-brand-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+        </svg>
+
+        <!-- Moon Icon (Dark Mode) -->
+        <svg class="w-5 h-5 text-slate-300 hidden dark:block group-hover:text-brand-400 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
+        <nav class="container mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <div class="text-xl font-bold bg-gradient-to-r from-brand-700 to-brand-500 bg-clip-text text-transparent">
+                FK
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden md:flex items-center space-x-8">
+                <li><a href="#about" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">About</a></li>
+                <li><a href="#education" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Education</a></li>
+                <li><a href="#skills" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Skills</a></li>
+                <li><a href="#experience" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Experience</a></li>
+                <li><a href="#contact" class="nav-link text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 px-3 py-2 rounded-lg">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" aria-label="Toggle mobile menu">
+                <svg class="w-6 h-6 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path class="menu-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path class="menu-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Progress Bar -->
+        <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-brand-600 to-brand-500 transition-all duration-100 origin-left" id="scroll-progress" style="width: 0%; transform: scaleX(0);"></div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden opacity-0 invisible transition-all duration-300">
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu-panel" class="fixed right-0 top-0 h-full w-80 max-w-sm bg-white dark:bg-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 border-l border-slate-200 dark:border-slate-700">
+
+            <!-- Menu Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <div class="text-lg font-semibold text-slate-800 dark:text-slate-200">Navigation</div>
+                <button id="mobile-menu-close" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200">
+                    <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menu Items -->
+            <nav class="p-6">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#about" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#education" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Education</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Skills</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#experience" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Experience</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="mobile-nav-link flex items-center space-x-3 p-3 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-600 dark:hover:text-brand-400 transition-all duration-200 group">
+                            <span class="w-2 h-2 bg-current rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="font-medium">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Menu Footer -->
+            <div class="absolute bottom-6 left-6 right-6">
+                <div class="text-center">
+                    <div class="text-sm text-slate-500 dark:text-slate-400 mb-3">Connect with me</div>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://linkedin.com/in/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Li</span>
+                        </a>
+                        <a href="https://github.com/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Gh</span>
+                        </a>
+                        <a href="https://twitter.com/faariskhan" class="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200 group">
+                            <span class="text-sm font-semibold text-slate-600 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">Tw</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="sidebar-footer">© CodeMentor Pro — Built for students</div>
-  </div>
 
-  <!-- Chat Area -->
-  <div class="chat-area">
-    <div class="chat-header">💬 Chat with CodeMentor </div>
-    <div class="messages" id="webchat"></div> 
-  </div>
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 lg:px-8 pt-8 pb-12 max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-[320px,1fr] gap-6 lg:gap-12">
 
-  <!-- Right Panel -->
-  <div class="details-panel">
-    <div class="details-header">Response details</div>
-    <div class="tabs">
-      <div class="tab active">Steps</div>
-      <div class="tab">Code</div>
-      <div class="tab">Tips</div>
-    </div>
-    <div class="tab-content">
-      Answer format: Overview → Steps → Code → Tips.
-    </div>
-  </div>
+            <!-- Sidebar -->
+            <aside class="order-2 lg:order-1 lg:sticky lg:top-24 h-fit">
+                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
 
+                    <!-- Profile Section -->
+                    <div class="text-center mb-8 pb-6 border-b border-slate-100 dark:border-slate-700">
+                        <!-- Profile Photo Placeholder -->
+                        <div class="w-24 h-24 lg:w-28 lg:h-28 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-600 to-brand-500 shadow-lg flex items-center justify-center relative group overflow-hidden">
+                            <span class="text-2xl lg:text-3xl font-bold text-white relative z-10">FK</span>
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-400 to-brand-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        </div>
 
-<!-- In your <head> tag -->
-<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
-<style>
-  #webchat .bpWebchat {
-    position: unset;
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-    max-width: 100%;
-  }
+                        <h1 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-2">Faaris Khan</h1>
+                        <p class="text-base lg:text-lg text-brand-600 dark:text-brand-400 font-medium mb-4">Aspiring AI Professional</p>
+                    </div>
 
-  #webchat .bpFab {
-    display: none;
-  }
-</style>
+                    <!-- Contact Information -->
+                    <div class="space-y-4">
+                        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Contact</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📧</span>
+                                <a href="mailto:faariskhan213@gmail.com" class="hover:underline">faariskhan213@gmail.com</a>
+                            </div>
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors duration-200 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📱</span>
+                                <a href="tel:+919763435213" class="hover:underline">+91 9763435213</a>
+                            </div>
+                            <div class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 group">
+                                <span class="text-lg group-hover:scale-110 transition-transform duration-200">📍</span>
+                                <span>Durgabhat, Ponda-Goa</span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Quick Stats -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700">
+                        <h2 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Quick Academic Stats</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                <div class="text-lg font-bold text-brand-600 dark:text-brand-400">8.93</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400"> CURRENT-CGPA</div>
+                            </div>
+                            <div class="text-center p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                <div class="text-lg font-bold text-brand-600 dark:text-brand-400">2026</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400">Graduate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
 
+            <!-- Main Content -->
+            <section class="order-1 lg:order-2 space-y-6 lg:space-y-8">
 
-<!-- In your <body> tag -->
-<script>
-  window.botpress.on("webchat:ready", () => {
-    window.botpress.open();
-  });
-  window.botpress.init({
-  "botId": "0b1c554e-bf61-45f0-9c52-2ffb8a4c424c",
-  "configuration": {
-    "version": "v1",
-    "botName": "codeMentor",
-    "botDescription": "🚀 Your AI-powered coding coach — futuristic, fast, and student-first. Debug, learn, and build smarter!.",
-    "website": {},
-    "email": {},
-    "phone": {},
-    "termsOfService": {},
-    "privacyPolicy": {},
-    "color": "#3276EA",
-    "variant": "solid",
-    "headerVariant": "glass",
-    "themeMode": "light",
-    "fontFamily": "inter",
-    "radius": 4,
-    "feedbackEnabled": true,
-    
-  },
-  "clientId": "c2232d34-dd63-42b4-8f64-390654e98fe6",
-  "selector": "#webchat"
-});
-</script>
+                <!-- About Section -->
+                <section id="about" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">About</h2>
 
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-3 gap-3 lg:gap-6 mb-8">
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">2</div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Internships</div>
+                        </div>
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200"></div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Projects</div>
+                        </div>
+                        <div class="text-center p-4 lg:p-6 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group cursor-pointer">
+                            <div class="text-2xl lg:text-3xl xl:text-4xl font-bold text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-200">8</div>
+                            <div class="text-xs lg:text-sm uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium mt-1">Skills</div>
+                        </div>
+                    </div>
 
+                    <!-- About Text -->
+                    <div class="prose prose-lg max-w-none">
+                        <p class="text-base lg:text-lg leading-relaxed text-slate-600 dark:text-slate-300 mb-6">
+                            Passionate final-year BCA student with hands-on experience in AI development and web technologies. 
+                            Currently expanding my expertise through practical internships at 
+                            <strong class="text-brand-600 dark:text-brand-400 font-semibold">Lenovo Leap</strong> and 
+                            <strong class="text-brand-600 dark:text-brand-400 font-semibold">Vanilla Kart</strong>, where I'm applying AI-driven solutions and modern web development practices.
+                        </p>
+
+                        <p class="text-base lg:text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+                            Dedicated to leveraging technology to solve real-world problems and create impactful digital experiences. 
+                            My goal is to bridge the gap between innovative AI solutions and user-friendly web applications.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Education Section -->
+                <section id="education" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Education</h2>
+
+                    <!-- Education Timeline -->
+                    <div class="relative">
+                        <!-- Timeline Line -->
+                        <div class="absolute left-6 top-8 bottom-8 w-px bg-gradient-to-b from-brand-500 to-brand-300 dark:from-brand-400 dark:to-brand-600"></div>
+
+                        <div class="space-y-8">
+                            <!-- Current Education -->
+                            <div class="relative pl-12">
+                                <div class="absolute left-3 top-2 w-6 h-6 bg-brand-500 dark:bg-brand-400 rounded-full border-4 border-white dark:border-slate-800 shadow-lg"></div>
+                                <div class="bg-brand-50 dark:bg-brand-900/20 rounded-xl p-6 hover:bg-brand-100 dark:hover:bg-brand-900/30 transition-colors duration-200">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">Bachelor of Computer Applications (BCA)</h3>
+                                    <p class="text-brand-600 dark:text-brand-400 font-medium mb-2">GVM's GGPR College of Commerce & Economics</p>
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">2023-2026</span>
+                                        <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full">Final Year</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                        Comprehensive computer science curriculum covering programming, database management, 
+                                        software development, and emerging technologies with focus on practical applications.
+                                    </p>
+                                    <!-- Progress Bar -->
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gradient-to-r from-brand-500 to-brand-400 rounded-full transition-all duration-1000 ease-out" style="width: 75%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-brand-600 dark:text-brand-400">75% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Previous Education -->
+                            <div class="relative pl-12">
+                                <div class="absolute left-3 top-2 w-6 h-6 bg-green-500 dark:bg-green-400 rounded-full border-4 border-white dark:border-slate-800 shadow-lg"></div>
+                                <div class="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors duration-200">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">Higher Secondary (Commerce)</h3>
+                                    <p class="text-green-600 dark:text-green-400 font-medium mb-2">P.E.S Higher Secondary School of Science and Arts</p>
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">2021-2023</span>
+                                        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs rounded-full">Completed</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        Commerce stream with focus on business fundamentals, economics, and analytical thinking 
+                                        that provides strong foundation for technology business understanding.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section id="skills" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Technical Skills</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Programming Languages -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-brand-500 rounded-full"></span>
+                                <span>Programming Languages</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Python</span>
+                                <span class="skill-tag-enhanced">JavaScript</span>
+                                <span class="skill-tag-enhanced">Java</span>
+                                <span class="skill-tag-enhanced">C</span>
+                                <span class="skill-tag-enhanced">SQL</span>
+                                <span class="skill-tag-enhanced">PHP</span>
+                            </div>
+                        </div>
+
+                        <!-- Web Technologies -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                                <span>Web Technologies</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">React</span>
+                                <span class="skill-tag-enhanced">HTML5</span>
+                                <span class="skill-tag-enhanced">CSS3</span>
+                                <span class="skill-tag-enhanced">Tailwind CSS</span>
+                                <span class="skill-tag-enhanced">Node.js</span>
+                            </div>
+                        </div>
+
+                        <!-- Tools & Platforms -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+                                <span>Tools & Platforms</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Git</span>
+                                <span class="skill-tag-enhanced">VS Code</span>
+                                <span class="skill-tag-enhanced">Excel</span>
+                                <span class="skill-tag-enhanced">Figma</span>
+                                <span class="skill-tag-enhanced">Linux</span>
+                            </div>
+                        </div>
+
+                        <!-- Soft Skills -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                                <span class="w-3 h-3 bg-orange-500 rounded-full"></span>
+                                <span>Core Competencies</span>
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag-enhanced">Problem Solving</span>
+                                <span class="skill-tag-enhanced">Team Work</span>
+                                <span class="skill-tag-enhanced">Communication</span>
+                                <span class="skill-tag-enhanced">Leadership</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Experience Section -->
+                <section id="experience" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-8">Experience</h2>
+
+                    <div class="space-y-8">
+                        <!-- Current Internship -->
+                        <div class="group">
+                            <div class="relative p-6 bg-gradient-to-r from-brand-50 to-blue-50 dark:from-brand-900/20 dark:to-blue-900/20 rounded-2xl border border-brand-100 dark:border-brand-800 hover:shadow-lg transition-all duration-300">
+                                <!-- Status Badge -->
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full flex items-center space-x-1">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                        <span>Ongoing</span>
+                                    </span>
+                                </div>
+
+                                <div class="pr-20">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">AI Intern</h3>
+                                    <p class="text-brand-600 dark:text-brand-400 font-medium mb-2">Lenovo Leap Internship Program</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">2024 - Present</p>
+                                </div>
+
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Learning and applying AI-driven solutions in real-world scenarios. Working with machine learning 
+                                    algorithms, data analysis, and practical AI implementations to solve business challenges.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="experience-tag-enhanced">Python Programming</span>
+                                    <span class="experience-tag-enhanced">AI/ML Development</span>
+                                    <span class="experience-tag-enhanced">Data Analysis</span>
+                                    <span class="experience-tag-enhanced">Problem Solving</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Internship -->
+                        <div class="group">
+                            <div class="relative p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-100 dark:border-green-800 hover:shadow-lg transition-all duration-300">
+                                <!-- Status Badge -->
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-medium rounded-full">
+                                        Completed
+                                    </span>
+                                </div>
+
+                                <div class="pr-20">
+                                    <h3 class="text-lg lg:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">SkillUp Intern</h3>
+                                    <p class="text-green-600 dark:text-green-400 font-medium mb-2">Vanilla Kart</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">2024 (6 Months)</p>
+                                </div>
+
+                                <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                    Worked on diverse projects spanning web development, digital marketing, management, PR, and startup strategies. 
+                                    Gained comprehensive hands-on experience with SEO optimization and social media strategy development.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="experience-tag-enhanced">Web Development</span>
+                                    <span class="experience-tag-enhanced">Digital Marketing</span>
+                                    <span class="experience-tag-enhanced">SEO Optimization</span>
+                                    <span class="experience-tag-enhanced">Social Media Strategy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 lg:p-8 hover:shadow-md dark:hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-6">Let's Connect</h2>
+
+                    <p class="text-base lg:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
+                        I'm always interested in discussing new opportunities, collaborating on projects, or connecting with 
+                        fellow developers and AI enthusiasts. Feel free to reach out!
+                    </p>
+
+                    <!-- Contact Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <a href="mailto:faariskhan213@gmail.com" 
+                           class="flex items-center space-x-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-700 dark:hover:text-brand-300 transition-all duration-200 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <span class="text-white text-xl">📧</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Email</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">faariskhan213@gmail.com</div>
+                            </div>
+                        </a>
+
+                        <a href="tel:+919763435213" 
+                           class="flex items-center space-x-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl hover:bg-brand-50 dark:hover:bg-brand-900/20 hover:text-brand-700 dark:hover:text-brand-300 transition-all duration-200 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <span class="text-white text-xl">📱</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Phone</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400">+91 9763435213</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="text-center">
+                        <div class="text-sm text-slate-500 dark:text-slate-400 mb-4">Find me on social media</div>
+                        <div class="flex justify-center space-x-4">
+                            <a href="https://linkedin.com/in/mohammad-faaris-khan-7792b1257" class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-200 shadow-lg hover:shadow-xl">
+                                <span class="font-semibold">Li</span>
+                            </a>
+                            <a href="https://github.com/GEEK-213" class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-200 shadow-lg hover:shadow-xl">
+                                <span class="font-semibold">Gh</span>
+                            </a>
+                           
+                        </div>
+                    </div>
+                </section>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" 
+            class="fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-r from-brand-600 to-brand-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 invisible z-40">
+        <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-700 py-8 text-center text-sm text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50">
+        <div class="container mx-auto px-4">
+            <p>&copy; <span id="current-year"></span> Faaris Khan. All rights reserved.</p>
+         
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
-</html>
