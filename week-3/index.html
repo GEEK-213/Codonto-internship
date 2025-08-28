@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail Mixer - Discover & Create Amazing Cocktails</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <h1 class="header__title">
+                    <span class="cocktail-icon">🍸</span>
+                    Cocktail Mixer
+                </h1>
+                <nav class="nav">
+                    <button class="nav__item nav__item--active" data-tab="browse">Browse</button>
+                    <button class="nav__item" data-tab="search">Search</button>
+                    <button class="nav__item" data-tab="random">Random</button>
+                    <button class="nav__item" data-tab="favorites">Favorites</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Browse Tab -->
+            <section id="browse-tab" class="tab-content tab-content--active">
+                <div class="filters">
+                    <div class="filters__group">
+                        <label class="form-label" for="category-filter">Category</label>
+                        <select id="category-filter" class="form-control">
+                            <option value="All">All Categories</option>
+                            <option value="Gin">Gin</option>
+                            <option value="Vodka">Vodka</option>
+                            <option value="Rum">Rum</option>
+                            <option value="Whiskey">Whiskey</option>
+                            <option value="Tequila">Tequila</option>
+                        </select>
+                    </div>
+                    <div class="filters__group">
+                        <label class="form-label" for="type-filter">Type</label>
+                        <select id="type-filter" class="form-control">
+                            <option value="All">All Types</option>
+                            <option value="Sour">Sour</option>
+                            <option value="Spirit Forward">Spirit Forward</option>
+                            <option value="Long Drink">Long Drink</option>
+                            <option value="Tiki">Tiki</option>
+                            <option value="Fizz">Fizz</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="cocktails-grid" class="cocktails-grid">
+                   
+                </div>
+            </section>
+
+            <!-- Search Tab -->
+            <section id="search-tab" class="tab-content">
+                <div class="search-section">
+                    <h2>Search Cocktails</h2>
+                    <div class="search-controls">
+                        <div class="search-group">
+                            <label class="form-label" for="search-name">Search by Name</label>
+                            <input type="text" id="search-name" class="form-control" placeholder="Enter cocktail name...">
+                        </div>
+                        <div class="search-group">
+                            <label class="form-label" for="search-ingredient">Search by Ingredient</label>
+                            <input type="text" id="search-ingredient" class="form-control" placeholder="Enter ingredient...">
+                        </div>
+                        <button id="clear-search" class="btn btn--secondary">Clear Search</button>
+                    </div>
+                    <div id="search-loading" class="loading hidden">
+                        <div class="loading__spinner"></div>
+                        <p>Searching cocktails...</p>
+                    </div>
+                    <div id="search-results" class="cocktails-grid">
+
+                    </div>
+                    <div id="search-error" class="error-message hidden">
+                        <p>Sorry, we couldn't find any cocktails. Please try a different search term.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Random Tab -->
+            <section id="random-tab" class="tab-content">
+                <div class="random-section">
+                    <h2>Discover Random Cocktails</h2>
+                    <p>Feeling adventurous? Let us surprise you with a random cocktail!</p>
+                    <button id="get-random" class="btn btn--primary btn--lg">Get Random Cocktail</button>
+                    <div id="random-loading" class="loading hidden">
+                        <div class="loading__spinner"></div>
+                        <p>Finding a surprise for you...</p>
+                    </div>
+                    <div id="random-result" class="random-result">
+                  
+                    </div>
+                </div>
+            </section>
+
+            <!-- Favorites Tab -->
+            <section id="favorites-tab" class="tab-content">
+                <div class="favorites-section">
+                    <h2>Your Favorite Cocktails</h2>
+                    <div id="favorites-grid" class="cocktails-grid">
+                      
+                    </div>
+                    <div id="favorites-empty" class="empty-state">
+                        <span class="empty-state__icon">💔</span>
+                        <h3>No favorites yet</h3>
+                        <p>Start exploring cocktails and add them to your favorites!</p>
+                        <button class="btn btn--primary" data-tab="browse">Browse Cocktails</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Cocktail Detail Modal -->
+    <div id="cocktail-modal" class="modal hidden">
+        <div class="modal__backdrop"></div>
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <div class="cocktail-detail">
+                <div class="cocktail-detail__image">
+                    <img id="modal-image" src="" alt="">
+                </div>
+                <div class="cocktail-detail__info">
+                    <h2 id="modal-name"></h2>
+                    <div class="cocktail-detail__meta">
+                        <span id="modal-category" class="status"></span>
+                        <span id="modal-type" class="status"></span>
+                        <span id="modal-glass" class="status"></span>
+                    </div>
+                    <div class="cocktail-detail__ingredients">
+                        <h3>Ingredients</h3>
+                        <ul id="modal-ingredients"></ul>
+                    </div>
+                    <div class="cocktail-detail__instructions">
+                        <h3>Instructions</h3>
+                        <p id="modal-instructions"></p>
+                    </div>
+                    <div class="cocktail-detail__actions">
+                        <button id="favorite-btn" class="btn btn--primary">
+                            <span class="favorite-icon">♥</span>
+                            Add to Favorites
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
