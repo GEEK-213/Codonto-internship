@@ -2,193 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CocktailCraft Pro – Day 3</title>
-  <meta name="description" content="Browse cocktails, view recipes, save favorites, and explore drink ideas.">
-  <meta name="theme-color" content="#218B8D">
-  <link rel="icon" type="image/svg+xml" 
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23218B8D'/><text x='50' y='62' font-size='42' text-anchor='middle'>🍸</text></svg>">
+  <title>Cocktail Mixer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="app-header">
-    <div class="container header-content">
-      <div class="logo">
-        <span class="logo-icon">🍸</span>
-        <h1 class="logo-text">CocktailCraft Pro</h1>
-      </div>
-      <div class="header-actions">
-        <button id="favorites-counter-btn" class="header-btn" title="Favorites">
-          ❤️ <span id="favorites-count" class="counter-badge">0</span>
-        </button>
-        <button id="refresh-cocktails" class="header-btn" title="Refresh">🔄</button>
-        <button id="theme-toggle" class="header-btn" title="Theme">🌙</button>
-      </div>
-    </div>
+  <header>
+    <h1>Cocktail Mixer</h1>
+    <nav>
+      <button id="browseTab" class="tab-btn active">Browse</button>
+      <button id="favoritesTab" class="tab-btn">Favorites</button>
+    </nav>
   </header>
 
-  <!-- Navigation -->
-  <nav class="main-nav">
-    <div class="nav-container">
-      <button class="nav-tab nav-tab--active" data-tab="browse">🏠 <span>Browse</span></button>
-      <button class="nav-tab" data-tab="search">🔍 <span>Search</span></button>
-      <button class="nav-tab" data-tab="favorites">❤️ <span>Favorites</span> <span id="nav-favorites-count" class="nav-badge">0</span></button>
+  <main>
+    <section id="cocktailList" class="grid"></section>
+
+    <div class="controls">
+      <button id="loadMoreBtn">Load More</button>
+      <button id="refreshBtn">Refresh</button>
     </div>
-  </nav>
-
-  <!-- Main -->
-  <main class="main-content">
-    <!-- Browse -->
-    <section id="browse-tab" class="tab-panel tab-panel--active">
-      <div class="container">
-        <header class="page-header">
-          <h2>Popular Cocktails</h2>
-          <p>Discover curated cocktail recipes</p>
-        </header>
-
-        <div class="filters-section">
-          <div class="filter-group">
-            <select id="category-filter" class="form-control">
-              <option value="">All Categories</option>
-              <option>Ordinary Drink</option>
-              <option>Cocktail</option>
-              <option>Shot</option>
-              <option>Beer</option>
-            </select>
-            <select id="alcoholic-filter" class="form-control">
-              <option value="">All Types</option>
-              <option>Alcoholic</option>
-              <option>Non alcoholic</option>
-            </select>
-            <button id="clear-filters" class="btn btn--outline">Clear</button>
-          </div>
-        </div>
-
-        <div id="loading-progress" class="progress-container hidden">
-          <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
-          <p class="progress-text">Loading cocktails...</p>
-        </div>
-
-        <div id="cocktail-grid" class="cocktail-grid"></div>
-
-        <div class="load-more-section">
-          <button id="load-more-btn" class="btn btn--primary btn--large">
-            <span class="btn-text">Load More</span>
-            <span class="btn-loader hidden">Loading...</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Search -->
-    <section id="search-tab" class="tab-panel">
-      <div class="container">
-        <header class="page-header">
-          <h2>Search Cocktails</h2>
-          <p>Find cocktails by name or ingredient</p>
-        </header>
-
-        <div class="search-section">
-          <div class="search-container">
-            <input id="search-input" class="form-control" placeholder="Search..." autocomplete="off">
-            <button id="search-btn" class="btn btn--primary">🔍 Search</button>
-          </div>
-          <div class="search-suggestions">
-            <h4>Popular:</h4>
-            <div class="suggestion-tags">
-              <button class="suggestion-tag" data-query="margarita">Margarita</button>
-              <button class="suggestion-tag" data-query="mojito">Mojito</button>
-              <button class="suggestion-tag" data-query="martini">Martini</button>
-              <button class="suggestion-tag" data-query="manhattan">Manhattan</button>
-              <button class="suggestion-tag" data-query="cosmopolitan">Cosmopolitan</button>
-              <button class="suggestion-tag" data-query="whiskey">Whiskey</button>
-              <button class="suggestion-tag" data-query="vodka">Vodka</button>
-              <button class="suggestion-tag" data-query="gin">Gin</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="search-results" class="search-results">
-          <div class="empty-state">
-            <span class="empty-icon">🔍</span>
-            <h3>Start Searching</h3>
-            <p>Enter a cocktail name or ingredient</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Favorites -->
-    <section id="favorites-tab" class="tab-panel">
-      <div class="container">
-        <header class="page-header">
-          <h2>My Favorites</h2>
-          <p>Saved cocktail recipes</p>
-        </header>
-        <div id="favorites-grid" class="cocktail-grid">
-          <div class="empty-state">
-            <span class="empty-icon">❤️</span>
-            <h3>No Favorites</h3>
-            <p>Add cocktails to your favorites to see them here.</p>
-            <button class="btn btn--primary" onclick="app.switchTab('browse')">Browse</button>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- Modal -->
-  <div id="cocktail-modal" class="modal-overlay hidden">
-    <div class="modal-backdrop"></div>
+  <!-- Cocktail Detail Modal -->
+  <div id="detailModal" class="modal hidden">
     <div class="modal-content">
-      <button class="modal-close" aria-label="Close">&times;</button>
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="drinkName"></h2>
+      <img id="drinkImage" alt="Cocktail" loading="lazy">
 
-      <div class="modal-header">
-        <div class="modal-image-container">
-          <img id="modal-image" class="modal-image" alt="" loading="lazy">
-          <button id="favorite-btn-modal" class="favorite-btn-modal" aria-label="Favorite">
-            <span id="favorite-icon-modal">🤍</span>
-          </button>
-        </div>
-      </div>
+      <div id="ingredients" class="ingredients-list"></div>
+      <p id="instructions"></p>
+      <p><strong>Glass:</strong> <span id="glassType"></span></p>
 
-      <div class="modal-body">
-        <h2 id="modal-name" class="cocktail-name"></h2>
-        <div class="cocktail-tags">
-          <span id="modal-category"></span>
-          <span id="modal-alcoholic"></span>
-          <span id="modal-glass"></span>
-        </div>
-
-        <div class="ingredients-section">
-          <h3>Ingredients</h3>
-          <ul id="modal-ingredients"></ul>
-        </div>
-
-        <div class="instructions-section">
-          <h3>Instructions</h3>
-          <p id="modal-instructions"></p>
-        </div>
-
-        <div class="modal-actions">
-          <button id="favorite-btn" class="btn btn--primary">
-            <span id="favorite-icon">🤍</span>
-            <span id="favorite-text">Add to Favorites</span>
-          </button>
-          <button id="share-cocktail" class="btn btn--outline">📤 Share</button>
-        </div>
-      </div>
+      <button id="favoriteBtn">Add to Favorites</button>
     </div>
-  </div>
-
-  <!-- Toasts -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- Loading -->
-  <div id="loading-overlay" class="loading-overlay hidden">
-    <div class="loading-spinner"></div>
-    <p id="loading-message">Loading...</p>
   </div>
 
   <script src="app.js"></script>
+</body>
+</html>
