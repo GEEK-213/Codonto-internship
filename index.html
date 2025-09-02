@@ -1,374 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Faaris Khan - Aspiring AI & Web Development Professional. BCA student with experience in AI, web development, and digital marketing.">
-    <meta name="keywords" content="Faaris Khan, AI, Web Development, BCA, Resume, Portfolio, Lenovo Leap, Vanilla Kart">
-    <meta name="author" content="Faaris Khan">
-    <title>Faaris Khan - Resume | AI & Web Development Professional</title>
-  
-  
-
-
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Explorer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-        <span class="sun-icon">☀️</span>
-        <span class="moon-icon">🌙</span>
-    </button>
-
-    <!-- Cursor Canvas -->
-    <canvas id="cursor-canvas" class="cursor-canvas"></canvas>
-
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Loading Portfolio...</p>
-        </div>
+  <header>
+    <h1>Cocktail Explorer 🍸</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search cocktails...">
+      <button id="searchBtn">Search</button>
     </div>
-
-    <!-- Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <!-- Header -->
-    <header class="header" role="banner">
-        <nav class="nav container" role="navigation" aria-label="Main navigation">
-            <div class="nav-brand animate-fade-in">
-                <span class="brand-text">FK</span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="#about" class="nav-link active" data-section="about">About</a></li>
-                <li><a href="#education" class="nav-link" data-section="education">Education</a></li>
-                <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
-                <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
-                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-            </ul>
-            <div class="nav-toggle" id="nav-toggle" aria-label="Toggle mobile menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-        <div class="progress-bar" id="progress-bar"></div>
-    </header>
-
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Sidebar -->
-        <aside class="sidebar animate-slide-in-left" role="complementary">
-            <section class="profile-section">
-                <div class="photo-placeholder animate-bounce-in breathing" aria-label="Faaris Khan profile photo placeholder">
-                    <span class="photo-text">FK</span>
-                    <div class="photo-glow"></div>
-                </div>
-                <h1 class="profile-name animate-fade-in-up">Faaris Khan</h1>
-                <p class="profile-title animate-fade-in-up" data-delay="0.2">
-                    <span class="typed-text" data-typed='["Aspiring AI Professional", "Web Development Enthusiast", "BCA Final Year Student", "Innovation Seeker"]'></span>
-                </p>
-            </section>
-
-            <section class="contact-info animate-fade-in-up" data-delay="0.4">
-                <h2 class="section-title">Contact</h2>
-                <div class="contact-item">
-                    <span class="contact-label">Email</span>
-                    <a href="mailto:faariskhan213@gmail.com" class="contact-value">faariskhan213@gmail.com</a>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-label">Phone</span>
-                    <a href="tel:+919763435213" class="contact-value">+91 9763435213</a>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-label">Location</span>
-                    <span class="contact-value">Durgabhat, Ponda-Goa</span>
-                </div>
-            </section>
-
-            <section class="soft-skills animate-fade-in-up" data-delay="0.6">
-                <h2 class="section-title">Key Strengths</h2>
-                <div class="skills-list">
-                    <div class="skill-item">
-                        <span class="skill-name">Problem Solving</span>
-                        <div class="skill-progress">
-                            <div class="skill-bar" data-progress="90"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Creativity</span>
-                        <div class="skill-progress">
-                            <div class="skill-bar" data-progress="85"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Team Collaboration</span>
-                        <div class="skill-progress">
-                            <div class="skill-bar" data-progress="88"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-name">Communication</span>
-                        <div class="skill-progress">
-                            <div class="skill-bar" data-progress="82"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </aside>
-
-        <!-- Main Content -->
-        <main id="main-content" class="content" role="main">
-            <!-- About Section -->
-            <section id="about" class="section">
-                <div class="card animate-fade-in-up">
-                    <h2 class="section-heading">About</h2>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <span class="stat-number counter" data-target="2">0</span>
-                            <span class="stat-label">Internships</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number counter" data-target="3">7</span>
-                            <span class="stat-label">Projects</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number counter" data-target="8">0</span>
-                            <span class="stat-label">Skills</span>
-                        </div>
-                    </div>
-                    <p class="about-text animate-fade-in-up" data-delay="0.2">
-                        Passionate final-year BCA student with hands-on experience in AI development and web technologies. 
-                        Currently expanding my expertise through practical internships at <strong>Lenovo Leap</strong> and 
-                        <strong>Vanilla Kart</strong>, where I'm applying AI-driven solutions and modern web development practices.
-                    </p>
-                    <p class="about-text animate-fade-in-up" data-delay="0.4">
-                        Dedicated to leveraging technology to solve real-world problems and create impactful digital experiences. 
-                        My goal is to bridge the gap between innovative AI solutions and user-friendly web applications.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Education Section -->
-            <section id="education" class="section">
-                <div class="card animate-fade-in-up">
-                    <h2 class="section-heading">Education</h2>
-                    <div class="timeline">
-                        <article class="timeline-item animate-slide-in-right" data-delay="0.2">
-                            <div class="timeline-marker"></div>
-                            <div class="timeline-content">
-                                <h3 class="degree">Bachelor of Computer Applications (BCA)</h3>
-                                <p class="institution">GVM's GGPR College of Commerce & Economics</p>
-                                <p class="period">2023-2026</p>
-                                <span class="status">Currently Pursuing - Final Year</span>
-                                <p class="description">
-                                    Comprehensive computer science curriculum covering programming, database management, 
-                                    software development, and emerging technologies.
-                                </p>
-                                <div class="timeline-progress">
-                                    <div class="timeline-progress-bar" data-progress="75"></div>
-                                    <span class="timeline-progress-text">75% Complete</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="timeline-item animate-slide-in-right" data-delay="0.4">
-                            <div class="timeline-marker"></div>
-                            <div class="timeline-content">
-                                <h3 class="degree">Higher Secondary (Commerce)</h3>
-                                <p class="institution">P.E.S Higher Secondary School of Science and Arts</p>
-                                <p class="period">2021-2023</p>
-                                <span class="status completed">Completed</span>
-                                <p class="description">
-                                    Commerce stream with focus on business fundamentals, economics, and analytical thinking.
-                                </p>
-                                <div class="timeline-progress">
-                                    <div class="timeline-progress-bar completed" data-progress="100"></div>
-                                    <span class="timeline-progress-text">Completed</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="section">
-                <div class="card animate-fade-in-up">
-                    <h2 class="section-heading">Technical Skills</h2>
-                    <div class="skills-grid">
-                        <div class="skill-category animate-fade-in-up" data-delay="0.1">
-                            <h3 class="category-title">Programming & Development</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag" data-level="85">C</span>
-                                <span class="skill-tag" data-level="80">Java</span>
-                                <span class="skill-tag" data-level="88">Python</span>
-                                <span class="skill-tag" data-level="75">React</span>
-                                <span class="skill-tag" data-level="82">JavaScript</span>
-                                <span class="skill-tag" data-level="70">PHP</span>
-                                <span class="skill-tag" data-level="90">SQL</span>
-                                <span class="skill-tag" data-level="92">HTML5</span>
-                                <span class="skill-tag" data-level="88">CSS3</span>
-                                <span class="skill-tag" data-level="88">NODEJS</span>
-                                <span class="skill-tag" data-level="88">Express</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category animate-fade-in-up" data-delay="0.2">
-                            <h3 class="category-title">Data Analytics & Tools</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag" data-level="78">Excel (Data Analysis)</span>
-                                <span class="skill-tag" data-level="70">Basic Data Analytics</span>
-                                <span class="skill-tag" data-level="85">SQL Queries</span>
-                                <span class="skill-tag" data-level="72">Data Visualization</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category animate-fade-in-up" data-delay="0.3">
-                            <h3 class="category-title">Web & UI/UX</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag" data-level="88">Web Development</span>
-                                <span class="skill-tag" data-level="75">Figma</span>
-                                <span class="skill-tag" data-level="85">Responsive Design</span>
-                                <span class="skill-tag" data-level="80">User Experience</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category animate-fade-in-up" data-delay="0.4">
-                            <h3 class="category-title">Digital Marketing & SEO</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag" data-level="80">Social Media Strategy</span>
-                                <span class="skill-tag" data-level="82">Content Optimization</span>
-                                <span class="skill-tag" data-level="75">SEO Basics</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Experience Section -->
-            <section id="experience" class="section">
-                <div class="card animate-fade-in-up">
-                    <h2 class="section-heading">Experience</h2>
-                    <div class="experience-list">
-                        <article class="experience-item animate-slide-in-left" data-delay="0.2">
-                            <div class="experience-header">
-                                <div class="experience-main">
-                                    <h3 class="role">AI Intern</h3>
-                                    <p class="company">Lenovo Leap Internship Program</p>
-                                </div>
-                                <div class="experience-meta">
-                                    <p class="period">2025 - Present</p>
-                                    <span class="status ongoing pulse">Ongoing</span>
-                                </div>
-                            </div>
-                            <p class="description">
-                                Learning and applying AI-driven solutions in real-world scenarios. Working with machine learning 
-                                algorithms, data analysis, and practical AI implementations.
-                            </p>
-                            <div class="experience-skills">
-                                <span class="skill-badge animate-bounce-in" data-delay="0.1">Python Programming</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.2">AI/ML Development</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.3">Data Analysis</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.4">Problem Solving</span>
-                            </div>
-                        </article>
-
-                        <article class="experience-item animate-slide-in-left" data-delay="0.4">
-                            <div class="experience-header">
-                                <div class="experience-main">
-                                    <h3 class="role">SkillUp Intern</h3>
-                                    <p class="company">Vanilla Kart</p>
-                                </div>
-                                <div class="experience-meta">
-                                    <p class="period">2024 (6 Months)</p>
-                                    <span class="status completed">Completed</span>
-                                </div>
-                            </div>
-                            <p class="description">
-                                Worked on projects related to web development, digital marketing, management, PR, and startup strategies. 
-                                Gained hands-on experience with SEO and social media strategy.
-                            </p>
-                            <div class="experience-skills">
-                                <span class="skill-badge animate-bounce-in" data-delay="0.1">Web Development</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.2">Digital Marketing</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.3">SEO Optimization</span>
-                                <span class="skill-badge animate-bounce-in" data-delay="0.4">Social Media Strategy</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="section">
-                <div class="card animate-fade-in-up">
-                    <h2 class="section-heading">Let's Connect</h2>
-                    <p class="contact-text">
-                        I'm always interested in discussing new opportunities, collaborating on projects, or connecting with 
-                        fellow developers and AI enthusiasts.
-                    </p>
-
-                    <div class="contact-form animate-fade-in-up" data-delay="0.2">
-                        <form class="form" id="contact-form">
-                            <div class="form-group">
-                                <input type="text" class="form-input" placeholder="" required>
-                                <label class="form-label">Name</label>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-input" placeholder="" required>
-                                <label class="form-label">Email</label>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-input" rows="5" placeholder="" required></textarea>
-                                <label class="form-label">Message</label>
-                            </div>
-                            <button type="submit" class="btn-submit">
-                                <span class="btn-text">Send Message</span>
-                                <div class="btn-loading">
-                                    <div class="loading-dots">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="contact-details animate-fade-in-up" data-delay="0.4">
-                        <a href="mailto:faariskhan213@gmail.com" class="contact-link floating">
-                           📧 faariskhan213@gmail.com
-                        </a>
-                        <a href="tel:+919763435213" class="contact-link floating">
-                           📱 +91 9763435213
-                        </a>
-                        <span class="contact-link floating">📍 Durgabhat, Ponda-Goa</span>
-                    </div>
-                </div>
-            </section>
-        </main>
+    <div class="filters">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+      </select>
+      <select id="ingredientFilter">
+        <option value="">All Ingredients</option>
+      </select>
     </div>
+  </header>
 
-    <!-- Scroll to Top -->
-    <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
-        <svg viewBox="0 0 24 24" width="20" height="20">
-            <path fill="currentColor" d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14l-6-6z"/>
-        </svg>
-    </button>
+  <main>
+    <div id="cocktailList" class="cocktail-list"></div>
+    <div class="controls">
+      <button id="loadMoreBtn">Load More</button>
+      <button id="refreshBtn">Refresh</button>
+    </div>
+  </main>
 
-    <!-- Particles -->
-    <div class="particles-container" id="particles"></div>
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <img id="modalImg" alt="Cocktail image">
+      <h3>Ingredients</h3>
+      <ul id="modalIngredients"></ul>
+      <h3>Instructions</h3>
+      <p id="modalInstructions"></p>
+    </div>
+  </div>
 
-    <!-- JavaScript -->
-    <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

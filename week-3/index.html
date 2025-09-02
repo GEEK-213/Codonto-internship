@@ -2,43 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cocktail Mixer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Explorer</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Cocktail Mixer</h1>
-    <nav>
-      <button id="browseTab" class="tab-btn active">Browse</button>
-      <button id="favoritesTab" class="tab-btn">Favorites</button>
-    </nav>
+    <h1>Cocktail Explorer </h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search cocktails...">
+      <button id="searchBtn">Search</button>
+    </div>
+    <div class="filters">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+      </select>
+      <select id="ingredientFilter">
+        <option value="">All Ingredients</option>
+      </select>
+    </div>
   </header>
 
   <main>
-    <section id="cocktailList" class="grid"></section>
-
+    <div id="cocktailList" class="cocktail-list"></div>
     <div class="controls">
       <button id="loadMoreBtn">Load More</button>
       <button id="refreshBtn">Refresh</button>
     </div>
   </main>
 
-  <!-- Cocktail Detail Modal -->
-  <div id="detailModal" class="modal hidden">
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
     <div class="modal-content">
       <span id="closeModal" class="close">&times;</span>
-      <h2 id="drinkName"></h2>
-      <img id="drinkImage" alt="Cocktail" loading="lazy">
-
-      <div id="ingredients" class="ingredients-list"></div>
-      <p id="instructions"></p>
-      <p><strong>Glass:</strong> <span id="glassType"></span></p>
-
-      <button id="favoriteBtn">Add to Favorites</button>
+      <h2 id="modalTitle"></h2>
+      <img id="modalImg" alt="Cocktail image">
+      <h3>Ingredients</h3>
+      <ul id="modalIngredients"></ul>
+      <h3>Instructions</h3>
+      <p id="modalInstructions"></p>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
