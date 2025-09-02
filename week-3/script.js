@@ -17,11 +17,9 @@ const modalInstructions = document.getElementById("modalInstructions");
 
 let currentCocktails = [];
 let displayedCount = 0;
-const cocktailsPerPage = 6; // number of cocktails to show at once
-
+const cocktailsPerPage = 6; 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
-// Fetch categories and ingredients
 async function loadFilters() {
   const catRes = await fetch(`${API_BASE}list.php?c=list`);
   const catData = await catRes.json();
@@ -34,7 +32,7 @@ async function loadFilters() {
 
   const ingRes = await fetch(`${API_BASE}list.php?i=list`);
   const ingData = await ingRes.json();
-  ingData.drinks.slice(0, 50).forEach(ing => { // limit for performance
+  ingData.drinks.slice(0, 50).forEach(ing => { 
     const option = document.createElement("option");
     option.value = ing.strIngredient1;
     option.textContent = ing.strIngredient1;
@@ -42,7 +40,6 @@ async function loadFilters() {
   });
 }
 
-// Fetch cocktails by search/category/ingredient
 async function fetchCocktails(query = "") {
   let url = "";
 
@@ -53,7 +50,7 @@ async function fetchCocktails(query = "") {
   } else if (ingredientFilter.value) {
     url = `${API_BASE}filter.php?i=${ingredientFilter.value}`;
   } else {
-    url = `${API_BASE}search.php?s=a`; // default fetch (random selection by 'a')
+    url = `${API_BASE}search.php?s=a`; 
   }
 
   const res = await fetch(url);
@@ -63,7 +60,7 @@ async function fetchCocktails(query = "") {
   renderCocktails();
 }
 
-// Render cocktails
+
 function renderCocktails() {
   if (displayedCount === 0) cocktailList.innerHTML = "";
 
