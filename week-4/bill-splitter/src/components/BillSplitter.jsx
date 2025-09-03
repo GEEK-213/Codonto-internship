@@ -25,13 +25,12 @@ export default function BillSplitter() {
             const name = match[2].trim();
             const price = parseFloat(match[3]);
 
-            // ignore junk words
             const ignoreWords = ["total", "subtotal", "discount", "payment", "gst", "cgst", "sgst", "tax", "upi"];
             if (ignoreWords.some(word => name.toLowerCase().includes(word))) {
               return null;
             }
 
-            if (price > 5000) return null;
+            if (price > 10000) return null;
 
         
             return {
