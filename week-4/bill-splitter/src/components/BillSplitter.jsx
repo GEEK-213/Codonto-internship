@@ -17,7 +17,7 @@ export default function BillSplitter() {
 
       const parsedItems = lines
         .map(line => {
-          // match: "3 ItemName — ₹627.00" or "ItemName ₹200"
+          
           const match = line.match(/(\d+)?\s*([A-Za-z ]+)\s*[₹]?\s?(\d+(\.\d{1,2})?)$/);
 
           if (match) {
@@ -31,12 +31,9 @@ export default function BillSplitter() {
               return null;
             }
 
-            // ignore absurd values
             if (price > 5000) return null;
 
-            // per-item price if quantity > 1
-            const unitPrice = (price / qty).toFixed(2);
-
+        
             return {
               name: `${qty} x ${name}`,
               price: parseFloat(price),
@@ -58,14 +55,14 @@ export default function BillSplitter() {
 
   return (
     <div style={{ maxWidth: "600px", margin: "2rem auto", padding: "1rem", background: "#fff3e6", borderRadius: "10px" }}>
-      <h2 style={{ textAlign: "center" }}>📑 Bill Splitter</h2>
+      <h2 style={{ textAlign: "center" }}> Bill Splitter</h2>
       <input type="file" accept="image/*" onChange={handleFileUpload} />
 
-      {loading && <p>⏳ Extracting items...</p>}
+      {loading && <p> Extracting items...</p>}
 
       {items.length > 0 && (
         <div style={{ marginTop: "1rem" }}>
-          <h3>✅ Extracted Items</h3>
+          <h3>Extracted Items</h3>
           <ul>
             {items.map((item, idx) => (
               <li key={idx}>
