@@ -1,40 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import PeopleSplitter from "./PeopleSplitter";
 
-function ItemExtractor({ text, onItemsExtracted }) {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    if (!text) return;
-
-    const lines = text.split("\n");
-    const extracted = [];
-
-    lines.forEach((line) => {
-      const match = line.match(/(.+?)\s+(\d+\.\d{2})$/);
+export default function ItemExtractor({ text }) {
+  // Extract items with regex
+  const lines = text.split("\n").filter((line) => line.trim());
+  const items = lines
+    .map((line) => {
+      const match = line.match(/(.+?)\s+₹?([\d.]+)/);
       if (match) {
-        extracted.push({ name: match[1].trim(), price: parseFloat(match[2]) });
+        return { name: match[1].trim(), price: parseFloat(match[2]) };
       }
-    });
-
-    setItems(extracted);
-    onItemsExtracted(extracted);
-  }, [text]);
-
-  if (!items.length) return null;
+      return null;
+    })
+    .filter(Boolean);
 
   return (
-    <div className="mb-4">
-      <h2 className="font-semibold mb-2">🛒 Extracted Items</h2>
-      <ul className="space-y-1">
+    <div className="mt-6 p-4 border rounded-lg bg-white">
+      <h2 className="text-xl font-bold mb-3">Extracted Items</h2>
+      <ul className="mb-4 list-disc pl-5">
         {items.map((item, idx) => (
-          <li key={idx} className="flex justify-between">
-            <span>{item.name}</span>
-            <span>₹{item.price.toFixed(2)}</span>
+          <li key={idx}>
+            {item.name} — ₹{item.price.toFixed(2)}
           </li>
         ))}
       </ul>
+
+      {/* Pass items to PeopleSplitter */}
+      <PeopleSplitter items={items} />
     </div>
   );
 }
-
-export default ItemExtractor;
