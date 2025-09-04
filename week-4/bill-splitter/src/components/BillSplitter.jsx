@@ -1,25 +1,28 @@
-import React, { useState } from "react";
-import FileUpload from "./Fileupload";
-import OCRResult from "./OCRResult";
+import { useState } from "react";
+import FileUpload from "./FileUpload";
+import RawTextViewer from "./RawTextViewer";
 import ItemExtractor from "./ItemExtractor";
-import BillCalculator from "./BillCalculator";
+import PeopleSplitter from "./PeopleSplitter";
+import { cleanOCRText } from "../utils/cleanOCR";
 
-function BillSplitter() {
-  const [ocrText, setOcrText] = useState("");
-  const [items, setItems] = useState([]);
+export default function BillSplitter() {
+  const [rawText, setRawText] = useState("");
+  const [cleanText, setCleanText] = useState("");
+
+  const handleExtracted = (text) => {
+    setRawText(text);
+    setCleanText(cleanOCRText(text)); 
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-orange-100 to-pink-100 p-6">
-      <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-4">📄 Bill Splitter</h1>
+    <div className="p-6 bg-orange-100 min-h-screen">
+      <h1 className="text-2xl font-bold mb-4">🧾 Bill Splitter</h1>
+      
+      <FileUpload onTextExtracted={handleExtracted} />
 
-        <FileUpload onTextExtracted={setOcrText} />
-        <OCRResult text={ocrText} />
-        <ItemExtractor text={ocrText} onItemsExtracted={setItems} />
-        {items.length > 0 && <BillCalculator items={items} />}
-      </div>
+      {rawText && <RawTextViewer text={rawText} />}
+      {cleanText && <ItemExtractor text={cleanText} />}
+      {cleanText && <PeopleSplitter text={cleanText} />}
     </div>
   );
 }
-
-export default BillSplitter;
