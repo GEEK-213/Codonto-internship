@@ -1,19 +1,33 @@
+// App.jsx
 import React, { useState } from "react";
-import OCRUploader from "./components/OCRResult";
+import LandingScreen from "./components/LandingScreen";
+import OCRResult from "./components/OCRResult";
 import BillSplitter from "./components/BillSplitter";
 
-export default function App() {
+function App() {
+  const [screen, setScreen] = useState("landing");
   const [extractedText, setExtractedText] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Bill Splitter 🧾</h1>
-
-      {!extractedText ? (
-        <OCRUploader onExtract={setExtractedText} />
-      ) : (
-        <BillSplitter extractedText={extractedText} onBack={() => setExtractedText("")} />
+    <div className="min-h-screen bg-gray-100">
+      {screen === "landing" && <LandingScreen onUpload={() => setScreen("ocr")} />}
+      {screen === "ocr" && (
+        <OCRResult
+          onExtract={(text) => {
+            setExtractedText(text);
+            setScreen("splitter");
+          }}
+          onBack={() => setScreen("landing")}
+        />
+      )}
+      {screen === "splitter" && (
+        <BillSplitter
+          extractedText={extractedText}
+          onBack={() => setScreen("ocr")}
+        />
       )}
     </div>
   );
 }
+
+export default App;

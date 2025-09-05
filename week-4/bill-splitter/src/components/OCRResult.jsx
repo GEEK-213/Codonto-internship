@@ -1,43 +1,55 @@
+// components/OCRResult.jsx
 import React, { useState } from "react";
-import Tesseract from "tesseract.js";
+import { extractTextFromImage } from "../utils/openrouter";
 
-export default function OCRUploader({ onExtract }) {
+export default function OCRResult({ onExtract, onBack }) {
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
 
-    setLoading(true);
+    setFile(selectedFile);
     setError("");
 
-    try {
-      const { data } = await Tesseract.recognize(file, "eng");
-      onExtract(data.text);
-    } catch (err) {
-      console.error(err);
-      setError("❌ OCR failed. Try another image.");
-    } finally {
-      setLoading(false);
-    }
+    const reader = new FileReader();
+reader.onload = async () => {
+  const base64 = reader.result;
+  setLoading(true);
+  try {
+    const response = await fetch("/api/extract", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ base64Image: base64 }),
+    });
+    const data = await response.json();
+    onExtract(data.text);
+  } catch (err) {
+    console.error(err);
+    setError("Failed to extract text. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+reader.readAsDataURL(selectedFile);
+
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-2xl shadow">
-      <p className="text-gray-700 mb-4 text-center">
-        Upload a receipt (JPG/PNG) and let AI extract the text.
-      </p>
-
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImage}
-        className="w-full p-2 border rounded-lg"
-      />
-
-      {loading && <p className="text-blue-600 mt-4 text-center">⏳ Processing…</p>}
-      {error && <p className="text-red-600 mt-4 text-center">{error}</p>}
+    <div className="flex flex-col items-center p-6">
+      <h2 className="text-2xl font-bold mb-4">Upload Receipt</h2>
+      <input type="file" accept="image/*" onChange={handleFileChange} className="mb-4" />
+      {file && <p className="mb-2">Selected: {file.name}</p>}
+      {loading && <p className="text-blue-600">Extracting items...</p>}
+      {error && <p className="text-red-600">{error}</p>}
+      <button
+        onClick={onBack}
+        className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+      >
+        ⬅ Back
+      </button>
     </div>
   );
 }

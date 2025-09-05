@@ -1,48 +1,25 @@
-export default function FinalSummary({ people, items, splitEvenly, onBack, onReset }) {
-  let summary = {};
+// components/FinalSummary.jsx
+import React from "react";
 
-  if (splitEvenly) {
-    const total = items.reduce((sum, it) => sum + it.price, 0);
-    const perPerson = people.length > 0 ? total / people.length : 0;
-    people.forEach((p) => {
-      summary[p] = perPerson;
-    });
-  } else {
-    people.forEach((p) => (summary[p] = 0));
-    items.forEach((it) => {
-      if (it.person) summary[it.person] += it.price;
-    });
-  }
-
+export default function FinalSummary({ items, total, onBack }) {
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Final Summary</h2>
-      <ul className="space-y-2 mb-6">
-        {people.map((p, i) => (
-          <li
-            key={i}
-            className="flex justify-between bg-gray-100 px-4 py-2 rounded-lg"
-          >
-            <span>{p}</span>
-            <span>₹{summary[p].toFixed(2)}</span>
+    <div className="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-4">Final Summary</h2>
+      <ul className="space-y-1">
+        {items.map((item, i) => (
+          <li key={i} className="flex justify-between border-b py-1">
+            <span>{item.name}</span>
+            <span>₹{item.price.toFixed(2)}</span>
           </li>
         ))}
       </ul>
-
-      <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
-        >
-          Go Back
-        </button>
-        <button
-          onClick={onReset}
-          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        >
-          Start Over
-        </button>
-      </div>
+      <p className="mt-4 font-semibold">Total: ₹{total.toFixed(2)}</p>
+      <button
+        onClick={onBack}
+        className="mt-6 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+      >
+        ⬅ Back
+      </button>
     </div>
   );
 }

@@ -1,27 +1,20 @@
+// components/BillSplitter.jsx
 import React, { useState } from "react";
 
 export default function BillSplitter({ extractedText, onBack }) {
   const [people, setPeople] = useState(2);
   const [splitMode, setSplitMode] = useState("even");
 
+  // Parse extracted text into items
   const items = extractedText
     .split("\n")
     .map(line => line.trim())
-    .filter(line => line.length > 0)
-    .filter(line => {
-      const blacklist = [
-        "total", "discount", "payment", "subtotal", "gst", "tax", "upi",
-        "order", "shop", "no", "number"
-      ];
-      return !blacklist.some(word => line.toLowerCase().includes(word));
-    })
+    .filter(Boolean)
     .map(line => {
       const match = line.match(/(.+?)\s*₹?(\d+(?:\.\d+)?)/);
       return match ? { name: match[1].trim(), price: parseFloat(match[2]) } : null;
     })
-    .filter(Boolean)
-   
-    .filter(item => item.price >= 20 && item.price <= 2000);
+    .filter(Boolean);
 
   const total = items.reduce((sum, item) => sum + item.price, 0);
 
@@ -29,7 +22,6 @@ export default function BillSplitter({ extractedText, onBack }) {
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Bill Splitter 🧾</h2>
 
-      {/* Show extracted items */}
       <div className="mb-4">
         <h3 className="text-lg font-semibold">Extracted Items</h3>
         <ul className="mt-2 space-y-1">
@@ -50,7 +42,6 @@ export default function BillSplitter({ extractedText, onBack }) {
         <p className="font-semibold">Total: ₹{total.toFixed(2)}</p>
       </div>
 
-      {/* People Input */}
       <div className="mb-4">
         <label className="block font-medium">Number of People:</label>
         <input
@@ -62,7 +53,6 @@ export default function BillSplitter({ extractedText, onBack }) {
         />
       </div>
 
-      {/* Split Mode */}
       <div className="mb-4">
         <label className="font-medium">Split Mode:</label>
         <div className="flex gap-4 mt-2">
@@ -81,7 +71,6 @@ export default function BillSplitter({ extractedText, onBack }) {
         </div>
       </div>
 
-      {/* Calculation */}
       {splitMode === "even" ? (
         <div className="mt-4">
           <p className="text-lg font-semibold">
@@ -102,7 +91,6 @@ export default function BillSplitter({ extractedText, onBack }) {
         </div>
       )}
 
-      {/* Back button */}
       <button
         onClick={onBack}
         className="mt-6 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
