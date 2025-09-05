@@ -1,96 +1,69 @@
 import React, { useState } from "react";
 
-export default function PeopleSplitter({ items }) {
-  const [people, setPeople] = useState(2);
-  const [splitMethod, setSplitMethod] = useState("equal"); 
-  const [assignments, setAssignments] = useState({});
+export default function PeopleSplitter({ items, onSplit, goBack }) {
+  const [people, setPeople] = useState([]);
+  const [newPerson, setNewPerson] = useState("");
 
-  
-  const total = items.reduce((sum, i) => sum + i.price, 0);
-  const perPerson = (total / people).toFixed(2);
-
-  const handleAssign = (itemIndex, personIndex) => {
-    setAssignments((prev) => ({
-      ...prev,
-      [itemIndex]: personIndex,
-    }));
+  const addPerson = () => {
+    if (newPerson.trim()) {
+      setPeople([...people, { name: newPerson.trim(), items: [] }]);
+      setNewPerson("");
+    }
   };
 
-  
-  const itemBasedSplit = Array.from({ length: people }, (_, i) => {
-    return items
-      .filter((_, idx) => assignments[idx] === i)
-      .reduce((sum, item) => sum + item.price, 0)
-      .toFixed(2);
-  });
+  const splitEvenly = () => {
+    if (people.length === 0) return;
+    const total = items.reduce((sum, it) => sum + it.amount, 0);
+    const share = total / people.length;
+
+    const split = people.map((p) => ({
+      ...p,
+      total: share,
+      items: items
+    }));
+    onSplit(split);
+  };
 
   return (
-    <div className="mt-6 p-4 border rounded-lg bg-gray-50">
-      <h2 className="text-lg font-bold mb-3">Split Between People</h2>
-
-      {/* Controls */}
-      <div className="mb-3">
-        <label className="mr-2 font-medium">Number of People:</label>
+    <div className="p-4 mt-4 border rounded-lg bg-white">
+      <h2 className="font-bold mb-2">Add People</h2>
+      <div className="flex gap-2 mb-3">
         <input
-          type="number"
-          min="2"
-          value={people}
-          onChange={(e) => setPeople(parseInt(e.target.value))}
-          className="w-16 border rounded px-2 py-1"
+          value={newPerson}
+          onChange={(e) => setNewPerson(e.target.value)}
+          placeholder="Person name"
+          className="border p-2 rounded flex-1"
         />
-      </div>
-
-      <div className="mb-3">
-        <label className="mr-2 font-medium">Split Method:</label>
-        <select
-          value={splitMethod}
-          onChange={(e) => setSplitMethod(e.target.value)}
-          className="border rounded px-2 py-1"
+        <button
+          onClick={addPerson}
+          className="bg-blue-600 text-white px-3 rounded"
         >
-          <option value="equal">Equal Split</option>
-          <option value="items">By Items</option>
-        </select>
+          Add
+        </button>
       </div>
 
-      {/* Show results */}
-      {splitMethod === "equal" ? (
-        <div className="font-semibold">
-          Each Person Pays: ₹{perPerson}
-        </div>
-      ) : (
-        <div>
-          <h3 className="font-semibold mb-2">Assign Items:</h3>
-          <ul className="mb-3 space-y-1">
-            {items.map((item, idx) => (
-              <li key={idx} className="flex justify-between items-center">
-                <span>
-                  {item.name} — ₹{item.price.toFixed(2)}
-                </span>
-                <select
-                  className="ml-2 border rounded px-2 py-1"
-                  onChange={(e) =>
-                    handleAssign(idx, parseInt(e.target.value))
-                  }
-                >
-                  <option value="">Assign</option>
-                  {Array.from({ length: people }, (_, i) => (
-                    <option key={i} value={i}>
-                      Person {i + 1}
-                    </option>
-                  ))}
-                </select>
-              </li>
-            ))}
-          </ul>
+      <ul className="mb-4">
+        {people.map((p, i) => (
+          <li key={i} className="py-1">
+            {p.name}
+          </li>
+        ))}
+      </ul>
 
-          <h3 className="font-semibold mb-2">Totals:</h3>
-          {itemBasedSplit.map((amt, i) => (
-            <p key={i}>
-              Person {i + 1}: ₹{amt}
-            </p>
-          ))}
-        </div>
-      )}
+      <div className="flex gap-2">
+        <button
+          onClick={splitEvenly}
+          className="bg-green-600 text-white px-3 py-1 rounded"
+        >
+          Split Evenly
+        </button>
+        <button
+          onClick={goBack}
+          className="bg-gray-400 text-white px-3 py-1 rounded"
+        >
+          Go Back
+        </button>
+      </div>
     </div>
   );
 }

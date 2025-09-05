@@ -1,32 +1,17 @@
 import React from "react";
-import PeopleSplitter from "./PeopleSplitter";
 
-export default function ItemExtractor({ text }) {
-  // Extract items with regex
-  const lines = text.split("\n").filter((line) => line.trim());
-  const items = lines
-    .map((line) => {
-      const match = line.match(/(.+?)\s+₹?([\d.]+)/);
-      if (match) {
-        return { name: match[1].trim(), price: parseFloat(match[2]) };
-      }
-      return null;
-    })
-    .filter(Boolean);
-
+export default function ItemExtractor({ items }) {
   return (
-    <div className="mt-6 p-4 border rounded-lg bg-white">
-      <h2 className="text-xl font-bold mb-3">Extracted Items</h2>
-      <ul className="mb-4 list-disc pl-5">
-        {items.map((item, idx) => (
-          <li key={idx}>
-            {item.name} — ₹{item.price.toFixed(2)}
+    <div className="p-4 mt-4 border rounded-lg bg-white">
+      <h2 className="font-bold mb-2">Extracted Items</h2>
+      <ul className="space-y-1">
+        {items.map((it) => (
+          <li key={it.id} className="flex justify-between">
+            <span>{it.name}</span>
+            <span>₹{it.amount.toFixed(2)}</span>
           </li>
         ))}
       </ul>
-
-      {/* Pass items to PeopleSplitter */}
-      <PeopleSplitter items={items} />
     </div>
   );
 }

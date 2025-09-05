@@ -1,14 +1,10 @@
 import React from "react";
 
-function OCRResult({ text }) {
-  if (!text) return null;
-
+export default function OCRResult({ text }) {
   return (
-    <div className="bg-gray-100 p-3 rounded-lg mb-4">
-      <h2 className="font-semibold mb-2">📄 Raw OCR Text</h2>
-      <pre className="text-sm whitespace-pre-wrap">{text}</pre>
+    <div className="p-4 mt-4 border rounded-lg bg-white">
+      <h2 className="font-bold mb-2">OCR Output</h2>
+      <pre className="whitespace-pre-wrap">{text}</pre>
     </div>
   );
 }
-
-export default OCRResult;

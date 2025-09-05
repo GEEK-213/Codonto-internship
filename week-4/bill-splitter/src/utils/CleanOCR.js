@@ -1,13 +1,17 @@
-export function cleanOCRText(rawText) {
- 
-  let lines = rawText.split("\n").map(l => l.trim()).filter(l => l);
 
+export function cleanOCRText(raw) {
+  return raw
+    .replace(/\n\s*\n/g, "\n") 
+    .trim();
+}
 
-  let filtered = lines.filter(line =>
-    /₹\s*\d+/.test(line) || /\d+\.\d{2}/.test(line)
-  );
-
-  filtered = filtered.filter(line => !/^[A-Za-z]{1,3}$/.test(line));
-
-  return filtered.join("\n");
+export function extractItems(text) {
+  const lines = text.split("\n").filter(l => l.trim() !== "");
+  return lines.map((line, idx) => {
+    const match = line.match(/(.+?)\s+(\d+(\.\d{1,2})?)$/);
+    if (match) {
+      return { id: idx, name: match[1].trim(), amount: parseFloat(match[2]) };
+    }
+    return { id: idx, name: line.trim(), amount: 0 };
+  });
 }
