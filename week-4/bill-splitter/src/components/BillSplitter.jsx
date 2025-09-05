@@ -1,116 +1,135 @@
-// components/BillSplitter.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function BillSplitter({ items, onGoBack }) {
-  const [people, setPeople] = useState([]);
+export default function BillSplitter({
+  people,
+  setPeople,
+  items,
+  setItems,
+  splitEvenly,
+  setSplitEvenly,
+  onFinish,
+}) {
   const [personName, setPersonName] = useState("");
-  const [splitResult, setSplitResult] = useState(null);
+  const [itemName, setItemName] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [assignedPerson, setAssignedPerson] = useState("");
 
-  // Add a new person
   const addPerson = () => {
-    if (personName.trim() === "") return;
-    setPeople([...people, { id: Date.now(), name: personName }]);
+    if (!personName.trim()) return;
+    setPeople([...people, personName.trim()]);
     setPersonName("");
   };
 
-  // Split evenly among all people
-  const splitEvenly = () => {
-    if (people.length === 0) return;
-    const total = items.reduce((sum, item) => sum + (item.price || 0), 0);
-    const share = (total / people.length).toFixed(2);
-
-    setSplitResult(
-      people.map((p) => ({
-        name: p.name,
-        amount: share,
-      }))
-    );
-  };
-
-  // Reset for editing
-  const resetSplit = () => {
-    setSplitResult(null);
+  const addItem = () => {
+    if (!itemName.trim() || !itemPrice) return;
+    setItems([
+      ...items,
+      { name: itemName.trim(), price: parseFloat(itemPrice), person: assignedPerson || null },
+    ]);
+    setItemName("");
+    setItemPrice("");
+    setAssignedPerson("");
   };
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white shadow-xl rounded-2xl">
-      <h2 className="text-xl font-bold mb-4">Bill Splitter 🧾</h2>
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">Add People & Items</h2>
 
-      {!splitResult ? (
-        <>
-          {/* Add People Section */}
-          <div className="mb-4">
-            <label className="block font-medium">Add People</label>
-            <div className="flex gap-2 mt-2">
-              <input
-                type="text"
-                placeholder="Person name"
-                value={personName}
-                onChange={(e) => setPersonName(e.target.value)}
-                className="border rounded-lg p-2 flex-1"
-              />
-              <button
-                onClick={addPerson}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-              >
-                Add
-              </button>
-            </div>
-          </div>
+      {/* People */}
+      <div className="mb-6">
+        <h3 className="font-medium mb-2">People</h3>
+        <div className="flex gap-2 mb-2">
+          <input
+            type="text"
+            placeholder="Person name"
+            value={personName}
+            onChange={(e) => setPersonName(e.target.value)}
+            className="border p-2 rounded flex-1"
+          />
+          <button
+            onClick={addPerson}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            Add
+          </button>
+        </div>
+        <ul className="flex gap-2 flex-wrap">
+          {people.map((p, i) => (
+            <li key={i} className="bg-gray-200 px-3 py-1 rounded-full">
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-          {/* List of People */}
-          {people.length > 0 && (
-            <ul className="mb-4 list-disc pl-5">
-              {people.map((p) => (
-                <li key={p.id}>{p.name}</li>
-              ))}
-            </ul>
-          )}
-
-          {/* Actions */}
-          <div className="flex gap-2">
-            <button
-              onClick={splitEvenly}
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-            >
-              Split Evenly
-            </button>
-            <button
-              onClick={onGoBack}
-              className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
-            >
-              Go Back
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Final Result */}
-          <h3 className="text-lg font-semibold mb-2">Split Result 💰</h3>
-          <ul className="mb-4">
-            {splitResult.map((res, idx) => (
-              <li key={idx}>
-                {res.name}: <span className="font-bold">₹{res.amount}</span>
-              </li>
+      {/* Items */}
+      <div className="mb-6">
+        <h3 className="font-medium mb-2">Items</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
+          <input
+            type="text"
+            placeholder="Item name"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Price"
+            value={itemPrice}
+            onChange={(e) => setItemPrice(e.target.value)}
+            className="border p-2 rounded"
+          />
+          <select
+            value={assignedPerson}
+            onChange={(e) => setAssignedPerson(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option value="">Unassigned</option>
+            {people.map((p, i) => (
+              <option key={i} value={p}>
+                {p}
+              </option>
             ))}
-          </ul>
+          </select>
+          <button
+            onClick={addItem}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Add Item
+          </button>
+        </div>
+        <ul>
+          {items.map((it, i) => (
+            <li key={i} className="flex justify-between border-b py-1">
+              <span>{it.name} — ₹{it.price.toFixed(2)}</span>
+              <span className="text-sm text-gray-500">
+                {it.person || "Unassigned"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={resetSplit}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
-            >
-              Edit Again
-            </button>
-            <button
-              onClick={onGoBack}
-              className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
-            >
-              Go Back
-            </button>
-          </div>
-        </>
-      )}
+      {/* Options */}
+      <div className="mb-6">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={splitEvenly}
+            onChange={(e) => setSplitEvenly(e.target.checked)}
+          />
+          Split Evenly
+        </label>
+      </div>
+
+      {/* Next */}
+      <button
+        onClick={onFinish}
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700"
+      >
+        Split Bill
+      </button>
     </div>
   );
 }
