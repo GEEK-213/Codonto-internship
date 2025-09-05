@@ -1,134 +1,113 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function BillSplitter({
-  people,
-  setPeople,
-  items,
-  setItems,
-  splitEvenly,
-  setSplitEvenly,
-  onFinish,
-}) {
-  const [personName, setPersonName] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [assignedPerson, setAssignedPerson] = useState("");
+export default function BillSplitter({ extractedText, onBack }) {
+  const [people, setPeople] = useState(2);
+  const [splitMode, setSplitMode] = useState("even");
 
-  const addPerson = () => {
-    if (!personName.trim()) return;
-    setPeople([...people, personName.trim()]);
-    setPersonName("");
-  };
+  const items = extractedText
+    .split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .filter(line => {
+      const blacklist = [
+        "total", "discount", "payment", "subtotal", "gst", "tax", "upi",
+        "order", "shop", "no", "number"
+      ];
+      return !blacklist.some(word => line.toLowerCase().includes(word));
+    })
+    .map(line => {
+      const match = line.match(/(.+?)\s*₹?(\d+(?:\.\d+)?)/);
+      return match ? { name: match[1].trim(), price: parseFloat(match[2]) } : null;
+    })
+    .filter(Boolean)
+   
+    .filter(item => item.price >= 20 && item.price <= 2000);
 
-  const addItem = () => {
-    if (!itemName.trim() || !itemPrice) return;
-    setItems([
-      ...items,
-      { name: itemName.trim(), price: parseFloat(itemPrice), person: assignedPerson || null },
-    ]);
-    setItemName("");
-    setItemPrice("");
-    setAssignedPerson("");
-  };
+  const total = items.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Add People & Items</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-4">Bill Splitter 🧾</h2>
 
-      {/* People */}
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">People</h3>
-        <div className="flex gap-2 mb-2">
-          <input
-            type="text"
-            placeholder="Person name"
-            value={personName}
-            onChange={(e) => setPersonName(e.target.value)}
-            className="border p-2 rounded flex-1"
-          />
-          <button
-            onClick={addPerson}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-          >
-            Add
-          </button>
-        </div>
-        <ul className="flex gap-2 flex-wrap">
-          {people.map((p, i) => (
-            <li key={i} className="bg-gray-200 px-3 py-1 rounded-full">
-              {p}
-            </li>
-          ))}
+      {/* Show extracted items */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold">Extracted Items</h3>
+        <ul className="mt-2 space-y-1">
+          {items.length > 0 ? (
+            items.map((item, i) => (
+              <li key={i} className="flex justify-between border-b py-1">
+                <span>{item.name}</span>
+                <span>₹{item.price.toFixed(2)}</span>
+              </li>
+            ))
+          ) : (
+            <li className="text-gray-500">No valid items found.</li>
+          )}
         </ul>
       </div>
 
-      {/* Items */}
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">Items</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
-          <input
-            type="text"
-            placeholder="Item name"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            value={itemPrice}
-            onChange={(e) => setItemPrice(e.target.value)}
-            className="border p-2 rounded"
-          />
-          <select
-            value={assignedPerson}
-            onChange={(e) => setAssignedPerson(e.target.value)}
-            className="border p-2 rounded"
+      <div className="mb-4">
+        <p className="font-semibold">Total: ₹{total.toFixed(2)}</p>
+      </div>
+
+      {/* People Input */}
+      <div className="mb-4">
+        <label className="block font-medium">Number of People:</label>
+        <input
+          type="number"
+          value={people}
+          min="1"
+          onChange={e => setPeople(Number(e.target.value))}
+          className="border p-2 rounded w-24"
+        />
+      </div>
+
+      {/* Split Mode */}
+      <div className="mb-4">
+        <label className="font-medium">Split Mode:</label>
+        <div className="flex gap-4 mt-2">
+          <button
+            onClick={() => setSplitMode("even")}
+            className={`px-4 py-2 rounded ${splitMode === "even" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
           >
-            <option value="">Unassigned</option>
-            {people.map((p, i) => (
-              <option key={i} value={p}>
-                {p}
-              </option>
+            Split Evenly
+          </button>
+          <button
+            onClick={() => setSplitMode("items")}
+            className={`px-4 py-2 rounded ${splitMode === "items" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          >
+            By Items
+          </button>
+        </div>
+      </div>
+
+      {/* Calculation */}
+      {splitMode === "even" ? (
+        <div className="mt-4">
+          <p className="text-lg font-semibold">
+            Each person pays: ₹{(total / people).toFixed(2)}
+          </p>
+        </div>
+      ) : (
+        <div className="mt-4">
+          <h3 className="font-semibold mb-2">Per Item Share</h3>
+          <ul className="space-y-1">
+            {items.map((item, i) => (
+              <li key={i} className="flex justify-between">
+                <span>{item.name}</span>
+                <span>₹{(item.price / people).toFixed(2)} each</span>
+              </li>
             ))}
-          </select>
-          <button
-            onClick={addItem}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Add Item
-          </button>
+          </ul>
         </div>
-        <ul>
-          {items.map((it, i) => (
-            <li key={i} className="flex justify-between border-b py-1">
-              <span>{it.name} — ₹{it.price.toFixed(2)}</span>
-              <span className="text-sm text-gray-500">
-                {it.person || "Unassigned"}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
 
-      {/* Options */}
-      <div className="mb-6">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={splitEvenly}
-            onChange={(e) => setSplitEvenly(e.target.checked)}
-          />
-          Split Evenly
-        </label>
-      </div>
-
-      {/* Next */}
+      {/* Back button */}
       <button
-        onClick={onFinish}
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700"
+        onClick={onBack}
+        className="mt-6 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
       >
-        Split Bill
+        ⬅ Go Back
       </button>
     </div>
   );
