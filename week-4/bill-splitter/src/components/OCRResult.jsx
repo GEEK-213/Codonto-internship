@@ -1,55 +1,54 @@
-// components/OCRResult.jsx
 import React, { useState } from "react";
-import { extractTextFromImage } from "../utils/openrouter";
 
-export default function OCRResult({ onExtract, onBack }) {
+export default function OCRResult({ onNext }) {
   const [file, setFile] = useState(null);
+  const [extractedText, setExtractedText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
-
     setFile(selectedFile);
-    setError("");
 
-    const reader = new FileReader();
-reader.onload = async () => {
-  const base64 = reader.result;
-  setLoading(true);
-  try {
-    const response = await fetch("/api/extract", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ base64Image: base64 }),
-    });
-    const data = await response.json();
-    onExtract(data.text);
-  } catch (err) {
-    console.error(err);
-    setError("Failed to extract text. Try again.");
-  } finally {
-    setLoading(false);
-  }
-};
-reader.readAsDataURL(selectedFile);
+    const formData = new FormData();
+    formData.append("image", selectedFile);
 
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:5174/api/extract", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      setExtractedText(data.output || "No text found");
+    } catch (err) {
+      console.error(err);
+      setExtractedText("Error extracting text");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center p-6">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Upload Receipt</h2>
+
       <input type="file" accept="image/*" onChange={handleFileChange} className="mb-4" />
-      {file && <p className="mb-2">Selected: {file.name}</p>}
-      {loading && <p className="text-blue-600">Extracting items...</p>}
-      {error && <p className="text-red-600">{error}</p>}
-      <button
-        onClick={onBack}
-        className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-      >
-        ⬅ Back
-      </button>
+
+      {loading && <p className="text-blue-600 font-semibold">Extracting items...</p>}
+
+      {extractedText && (
+        <>
+          <h3 className="text-lg font-semibold mt-4">Extracted Text</h3>
+          <pre className="bg-gray-100 p-3 rounded mt-2">{extractedText}</pre>
+          <button
+            onClick={() => onNext(extractedText)}
+            className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Next
+          </button>
+        </>
+      )}
     </div>
   );
 }

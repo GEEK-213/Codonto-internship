@@ -1,15 +1,15 @@
-// components/BillSplitter.jsx
 import React, { useState } from "react";
 
 export default function BillSplitter({ extractedText, onBack }) {
   const [people, setPeople] = useState(2);
   const [splitMode, setSplitMode] = useState("even");
 
-  // Parse extracted text into items
   const items = extractedText
     .split("\n")
     .map(line => line.trim())
-    .filter(Boolean)
+    .filter(line => line.length > 0)
+    .filter(line => !["total", "discount", "payment", "subtotal", "gst", "tax", "upi", "order", "shop", "no", "number"]
+      .some(word => line.toLowerCase().includes(word)))
     .map(line => {
       const match = line.match(/(.+?)\s*₹?(\d+(?:\.\d+)?)/);
       return match ? { name: match[1].trim(), price: parseFloat(match[2]) } : null;
