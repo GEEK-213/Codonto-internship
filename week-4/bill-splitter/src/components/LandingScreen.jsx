@@ -1,18 +1,17 @@
-import React from "react";
+import React from 'react';
 
-export default function LandingScreen({ onStart }) {
-  return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-lg text-center">
-      <h1 className="text-3xl font-bold mb-4">Bill Splitter 🧾</h1>
-      <p className="mb-6">
-        Upload a receipt (JPG/PNG) and let AI extract the items automatically.
-      </p>
-      <button
-        onClick={onStart}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-      >
-        Start
-      </button>
-    </div>
-  );
-}
+const LandingScreen = ({ onStart }) => (
+  <div className="text-center">
+    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">AI Bill Splitter</h1>
+    <p className="text-lg text-gray-600 mb-8">Scan a receipt, categorize items with AI, and split the bill.</p>
+    <button
+      onClick={onStart}
+      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-transform duration-150 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+    >
+      Scan a Receipt
+    </button>
+  </div>
+);
+
+export default LandingScreen;
+
