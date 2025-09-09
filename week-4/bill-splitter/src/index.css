@@ -1,0 +1,245 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #4F46E5;
+  --primary-hover: #4338CA;
+  --secondary-color: #6B7280;
+  --background-color: #F9FAFB;
+  --card-background: #FFFFFF;
+  --text-color: #1F2937;
+  --light-text-color: #6B7280;
+  --border-color: #E5E7EB;
+  --error-color: #EF4444;
+  --success-color: #10B981;
+  --font-family: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--light-text-color);
+  font-size: 0.875rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  color: var(--light-text-color);
+  line-height: 1.6;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn:disabled {
+    background-color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+.btn-secondary:hover {
+    background-color: #4B5563;
+}
+
+.btn-full-width {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.file-upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  margin-bottom: 1rem;
+}
+
+.file-upload-area:hover {
+  border-color: var(--primary-color);
+}
+
+.file-upload-area img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 0.5rem;
+}
+
+.file-upload-placeholder svg {
+    margin: 0 auto 1rem;
+    width: 4rem;
+    height: 4rem;
+    color: var(--light-text-color);
+}
+
+.error-message {
+  color: var(--error-color);
+  background-color: #FEE2E2;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.status-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    color: var(--primary-color);
+    margin-top: 1rem;
+}
+
+.status-message svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.item-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.item:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+  font-weight: 500;
+}
+
+.item-category {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--light-text-color);
+    background-color: #F3F4F6;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    margin-top: 0.25rem;
+    width: fit-content;
+}
+
+.item-price {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.total-section {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 0;
+  margin-top: 1rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.input-group {
+  margin: 1.5rem 0;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+.back-button:hover {
+    color: var(--text-color);
+}

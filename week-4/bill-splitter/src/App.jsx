@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Helper function to convert a file to a base64 string
 const fileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -9,33 +10,32 @@ const fileToBase64 = (file) => {
   });
 };
 
+// Helper function to format numbers as Indian Rupees (INR)
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'INR' }).format(amount);
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR'
+  }).format(amount);
 };
 
-
+// --- Components ---
 
 const LandingScreen = ({ onScan }) => {
   return (
     <div className="text-center">
-      <h1 className="text-4xl font-bold text-gray-800 mb-2">Bill Splitter</h1>
-      <p className="text-gray-600 mb-8">Upload a receipt and split the bill with ease.</p>
-      <button 
-        onClick={onScan}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105"
-      >
+      <h1>Bill Splitter</h1>
+      <p>Upload a receipt and split the bill with ease.</p>
+      <button onClick={onScan} className="btn">
         Scan a Receipt
       </button>
     </div>
   );
 };
 
-
-
 const OCRResult = ({ onTextExtracted, onBack, apiKey }) => {
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
-  const [status, setStatus] = useState('idle'); 
+  const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
 
@@ -52,244 +52,248 @@ const OCRResult = ({ onTextExtracted, onBack, apiKey }) => {
       setImagePreview(URL.createObjectURL(selectedFile));
     }
   };
-  
+
   const handleExtractText = async () => {
-      if (!file) {
-          setError('Please select a file first.');
-          return;
+    if (!file) {
+      setError('Please select a file first.');
+      return;
+    }
+    if (!apiKey) {
+      setError('API Key is missing. Please add it to the code.');
+      return;
+    }
+
+    setStatus('processing');
+    setError('');
+
+    try {
+      const base64Image = await fileToBase64(file);
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{
+          parts: [
+            { text: "Extract all item names and their corresponding prices from this receipt image. List each item on a new line." },
+            { inline_data: { mime_type: file.type, data: base64Image } }
+          ]
+        }]
+      };
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(`API Error: ${errorBody.error.message}`);
       }
-      if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
-          setError('API Key is missing. Please add it to the code.');
-          return;
+
+      const result = await response.json();
+      const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!text || text.trim() === '') {
+        throw new Error("The AI couldn't find any text on the receipt. Please try a clearer image.");
       }
 
-      setStatus('processing');
-      setError('');
+      onTextExtracted(text);
 
-      try {
-          const base64Image = await fileToBase64(file);
-          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-          
-          const payload = {
-              contents: [{
-                  parts: [
-                      { text: "Extract all text from this receipt image. Focus on item names and prices." },
-                      { inline_data: { mime_type: file.type, data: base64Image } }
-                  ]
-              }]
-          };
-
-          const response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-          });
-
-          if (!response.ok) {
-              const errorBody = await response.json();
-              throw new Error(`API Error: ${errorBody.error.message}`);
-          }
-
-          const result = await response.json();
-          const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-          
-          if (!text || text.trim() === '') {
-              throw new Error("The AI couldn't find any text on the receipt. Please try a clearer image.");
-          }
-
-          onTextExtracted(text);
-
-      } catch (err) {
-          console.error(err);
-          setError(err.message || 'An unknown error occurred.');
-          setStatus('error');
-      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'An unknown error occurred.');
+      setStatus('error');
+    }
   };
 
   return (
     <div className="text-center">
-      <h2 className="text-3xl font-bold text-gray-800 mb-4">Upload Receipt</h2>
-      <div 
-        className={`w-full h-48 border-2 border-dashed rounded-lg flex items-center justify-center mb-4 ${
-          imagePreview ? '' : 'bg-gray-50'
-        }`}
+      <h2>Upload Receipt</h2>
+      <div
+        className="file-upload-area"
         onClick={() => fileInputRef.current.click()}
       >
         <input
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
-          className="hidden"
+          style={{ display: 'none' }}
           accept="image/png, image/jpeg, image/webp"
         />
         {imagePreview ? (
-          <img src={imagePreview} alt="Receipt preview" className="max-w-full max-h-full rounded-lg object-contain" />
+          <img src={imagePreview} alt="Receipt preview" />
         ) : (
-          <div className="text-gray-500">
-            <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <div className="file-upload-placeholder">
+            <svg stroke="currentColor" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
             <p>Click to select a file</p>
           </div>
         )}
       </div>
-      
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      
+
+      {error && <p className="error-message">{error}</p>}
+
       {status === 'processing' ? (
-        <div className="flex items-center justify-center text-blue-600">
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            Extracting with AI.
+        <div className="status-message">
+           <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+           Extracting with AI...
         </div>
       ) : (
         <button
           onClick={handleExtractText}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg disabled:opacity-50"
+          className="btn btn-full-width"
           disabled={!file}
         >
           Extract Items
         </button>
       )}
-      <button onClick={onBack} className="mt-4 text-gray-600 hover:text-gray-800 text-sm">
+      <button onClick={onBack} className="back-button">
         &larr; Go Back
       </button>
     </div>
   );
 };
 
-
-
 const BillSplitter = ({ extractedText, onProceed, onBack, apiKey }) => {
-    const [items, setItems] = useState([]);
-    const [total, setTotal] = useState(0);
-    const [people, setPeople] = useState(2);
-    const [isCategorizing, setIsCategorizing] = useState(false);
-    const [error, setError] = useState('');
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [people, setPeople] = useState(2);
+  const [isCategorizing, setIsCategorizing] = useState(false);
+  const [error, setError] = useState('');
 
-    useEffect(() => {
-        const parseText = () => {
-            const lines = extractedText.split('\n');
-            const parsedItems = [];
-            const itemRegex = /(.+?)\s+([$]?\d+\.\d{2})/;
+  useEffect(() => {
+    const parseText = () => {
+      if (!extractedText) return;
+      const lines = extractedText.split('\n');
+      const uniqueItems = new Map();
+      const itemRegex = /(.+?)\s+([$₹€]?\s?\d+[.,]\d{2})/;
 
-            lines.forEach(line => {
-                const match = line.match(itemRegex);
-                if (match) {
-                    parsedItems.push({
-                        id: crypto.randomUUID(),
-                        name: match[1].trim(),
-                        price: parseFloat(match[2].replace('$', '')),
-                        category: 'Uncategorized'
-                    });
-                }
-            });
-            setItems(parsedItems);
-        };
-        parseText();
-    }, [extractedText]);
-    
-    useEffect(() => {
-      const newTotal = items.reduce((sum, item) => sum + item.price, 0);
-      setTotal(newTotal);
-    }, [items]);
-    
-    const handleCategorize = async () => {
-        if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
-            setError("API Key is missing. Please add it to the code.");
-            return;
+      lines.forEach(line => {
+        const match = line.match(itemRegex);
+        if (match) {
+          const name = match[1].trim();
+          // FIX: Correctly parse the price by removing currency symbols and normalizing decimal points.
+          const priceString = match[2].replace(/[$,₹€\s]/g, '').replace(',', '.');
+          const price = parseFloat(priceString);
+
+          if (!isNaN(price) && price > 0) {
+            const itemKey = `${name}-${price}`;
+            if (!uniqueItems.has(itemKey)) {
+              uniqueItems.set(itemKey, {
+                id: crypto.randomUUID(),
+                name: name,
+                price: price,
+                category: 'Uncategorized'
+              });
+            }
+          }
         }
-        setIsCategorizing(true);
-        setError('');
-
-        const itemList = items.map(item => item.name).join(', ');
-        const prompt = `Categorize the following comma-separated list of items from a receipt into simple categories like 'Food', 'Drink', 'Dessert', 'Snack', or 'Other'. For each item, provide only the category name. The items are: ${itemList}. Respond with a JSON object where keys are the item names and values are their corresponding category. For example: {"Burger": "Food", "Coke": "Drink"}`;
-        
-        try {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            const payload = { 
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { responseMimeType: "application/json" }
-            };
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) throw new Error('API request failed');
-
-            const result = await response.json();
-            const categoryData = JSON.parse(result.candidates[0].content.parts[0].text);
-            
-            setItems(prevItems =>
-                prevItems.map(item => ({
-                    ...item,
-                    category: categoryData[item.name] || 'Other'
-                }))
-            );
-
-        } catch (err) {
-            console.error(err);
-            setError("Couldn't categorize items. Please try again.");
-        } finally {
-            setIsCategorizing(false);
-        }
+      });
+      setItems(Array.from(uniqueItems.values()));
     };
+    parseText();
+  }, [extractedText]);
 
-    const handleProceed = () => {
-        const perPersonAmount = total / people;
-        onProceed({ items, total, people, perPersonAmount });
-    };
+  useEffect(() => {
+    const newTotal = items.reduce((sum, item) => sum + item.price, 0);
+    setTotal(newTotal);
+  }, [items]);
 
-    return (
-        <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-4 text-center">Split the Bill</h2>
-            <div className="mb-4">
-                <ul className="max-h-60 overflow-y-auto bg-gray-50 p-3 rounded-lg border">
-                    {items.map(item => (
-                        <li key={item.id} className="flex justify-between items-center py-2 border-b last:border-b-0">
-                            <div>
-                                <span className="font-medium">{item.name}</span>
-                                <span className="text-xs ml-2 bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{item.category}</span>
-                            </div>
-                            <span className="font-mono">{formatCurrency(item.price)}</span>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-             <button
-                onClick={handleCategorize}
-                disabled={isCategorizing || items.length === 0}
-                className="w-full flex items-center justify-center bg-purple-100 text-purple-800 font-semibold py-2 px-4 rounded-lg hover:bg-purple-200 disabled:opacity-50 mb-4"
-            >
-                {isCategorizing ? "Categorizing..." : "✨ AI Categorize Items"}
-            </button>
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-            
-            <div className="flex justify-between items-center text-xl font-bold my-4 py-4 border-t-2 border-b-2">
-                <span>Total:</span>
-                <span className="font-mono">{formatCurrency(total)}</span>
-            </div>
-            
-            <div className="my-4">
-                <label className="block text-center text-gray-700 font-medium mb-2">How many people are splitting?</label>
-                <input 
-                    type="number" 
-                    value={people} 
-                    onChange={(e) => setPeople(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-full p-2 text-center text-lg border rounded-lg"
-                />
-            </div>
+  const handleCategorize = async () => {
+    if (!apiKey) {
+      setError("API Key is missing. Please add it to the code.");
+      return;
+    }
+    setIsCategorizing(true);
+    setError('');
 
-            <button onClick={handleProceed} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg">
-                Proceed to Summary
-            </button>
-            <button onClick={onBack} className="mt-4 text-gray-600 hover:text-gray-800 text-sm w-full text-center">
-                &larr; Scan a different receipt
-            </button>
-        </div>
-    );
+    const itemList = items.map(item => item.name).join(', ');
+    const prompt = `Categorize these items: ${itemList}. Respond with a JSON object where keys are item names and values are categories like 'Food', 'Drink', or 'Other'. Example: {"Burger": "Food", "Coke": "Drink"}`;
+
+    try {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: "application/json" }
+      };
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+
+      const result = await response.json();
+      const categoryData = JSON.parse(result.candidates[0].content.parts[0].text);
+
+      setItems(prevItems =>
+        prevItems.map(item => ({
+          ...item,
+          category: categoryData[item.name] || 'Other'
+        }))
+      );
+    } catch (err) {
+      console.error(err);
+      setError("Couldn't categorize items. Please try again.");
+    } finally {
+      setIsCategorizing(false);
+    }
+  };
+
+  const handleProceed = () => {
+    const perPersonAmount = total > 0 && people > 0 ? total / people : 0;
+    onProceed({ items, total, people, perPersonAmount });
+  };
+
+  return (
+    <div>
+      <h2 className="text-center">Split the Bill</h2>
+      <div className="item-list">
+        <ul>
+          {items.map(item => (
+            <li key={item.id} className="item">
+              <div>
+                <span className="item-name">{item.name}</span>
+                <span className="item-category">{item.category}</span>
+              </div>
+              <span className="item-price">{formatCurrency(item.price)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <button
+        onClick={handleCategorize}
+        disabled={isCategorizing || items.length === 0}
+        className="btn btn-secondary btn-full-width"
+      >
+        {isCategorizing ? "Categorizing..." : "✨ AI Categorize Items"}
+      </button>
+      {error && <p className="error-message text-center">{error}</p>}
+
+      <div className="total-section">
+        <span>Total:</span>
+        <span>{formatCurrency(total)}</span>
+      </div>
+
+      <div className="input-group">
+        <label>How many people are splitting?</label>
+        <input
+          type="number"
+          value={people}
+          onChange={(e) => setPeople(Math.max(1, parseInt(e.target.value) || 1))}
+          className="input-field"
+        />
+      </div>
+
+      <button onClick={handleProceed} className="btn btn-full-width">
+        Proceed to Summary
+      </button>
+      <button onClick={onBack} className="back-button btn-full-width">
+        &larr; Scan a different receipt
+      </button>
+    </div>
+  );
 };
-
-
 
 const FinalSummary = ({ summary, onStartNew, apiKey }) => {
   const { total = 0, people = 0, perPersonAmount = 0 } = summary || {};
@@ -299,7 +303,7 @@ const FinalSummary = ({ summary, onStartNew, apiKey }) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleGenerateMessage = async () => {
-    if (!apiKey || apiKey === "YOUR_GEMINI_API_KEY_HERE") {
+    if (!apiKey) {
       setError("API Key is missing. Please add it to the code.");
       return;
     }
@@ -307,48 +311,43 @@ const FinalSummary = ({ summary, onStartNew, apiKey }) => {
     setError(null);
     setShareMessage('');
 
-    const prompt = `Create a friendly and concise message to share in a group chat for splitting a bill. The total was ${formatCurrency(total)}, split between ${people} people. Each person owes ${formatCurrency(perPersonAmount)}. Keep it under 280 characters.`;
+    const prompt = `Create a friendly, short message for a group chat to split a bill. Total: ${formatCurrency(total)}, split between ${people} people. Each owes ${formatCurrency(perPersonAmount)}.`;
 
     try {
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-        const payload = { contents: [{ parts: [{ text: prompt }] }] };
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+      const payload = { contents: [{ parts: [{ text: prompt }] }] };
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.statusText}`);
-        }
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.statusText}`);
+      }
 
-        const result = await response.json();
-        const generatedText = result.candidates[0].content.parts[0].text;
-        setShareMessage(generatedText.trim());
-
+      const result = await response.json();
+      const generatedText = result.candidates[0].content.parts[0].text;
+      setShareMessage(generatedText.trim());
     } catch (err) {
-        console.error(err);
-        setError("Sorry, couldn't generate the message right now.");
+      console.error(err);
+      setError("Sorry, couldn't generate the message right now.");
     } finally {
-        setIsGenerating(false);
+      setIsGenerating(false);
     }
   };
 
-  const handleCopyToClipboard = () => {
-    if (shareMessage) {
-      
-        const ta = document.createElement('textarea');
-        ta.value = shareMessage;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
+  const handleCopyToClipboard = async () => {
+    if (!shareMessage) return;
+    try {
+      await navigator.clipboard.writeText(shareMessage);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
     }
   };
-
+  
   return (
     <div className="w-full max-w-lg mx-auto text-center">
       <h2 className="text-3xl font-bold text-gray-800 mb-2">All Settled!</h2>
@@ -375,27 +374,26 @@ const FinalSummary = ({ summary, onStartNew, apiKey }) => {
             disabled={isGenerating}
             className="w-full flex items-center justify-center bg-teal-100 text-teal-800 font-semibold py-3 px-4 rounded-lg hover:bg-teal-200 disabled:opacity-50"
         >
-            {isGenerating ? "Generating..." : "🤖 Generate Share Message"}
+          {isGenerating ? "Generating..." : "🤖 Generate Share Message"}
         </button>
         
         {error && <p className="mt-2 text-red-500">{error}</p>}
 
         {shareMessage && (
-            <div className="mt-4 p-4 bg-gray-100 rounded-lg text-left relative">
-                <textarea
-                    readOnly
-                    value={shareMessage}
-                    className="w-full h-24 bg-transparent border-0 resize-none text-gray-700 outline-none"
-                />
-                 <button 
-                    onClick={handleCopyToClipboard}
-                    className="absolute top-2 right-2 bg-gray-200 text-gray-700 px-3 py-1 text-sm rounded-md hover:bg-gray-300"
-                >
-                    {isCopied ? 'Copied!' : 'Copy'}
-                </button>
-            </div>
+          <div className="mt-4 p-4 bg-gray-100 rounded-lg text-left relative">
+            <textarea
+                readOnly
+                value={shareMessage}
+                className="w-full h-24 bg-transparent border-0 resize-none text-gray-700 outline-none"
+            />
+             <button 
+                onClick={handleCopyToClipboard}
+                className="absolute top-2 right-2 bg-gray-200 text-gray-700 px-3 py-1 text-sm rounded-md hover:bg-gray-300"
+            >
+              {isCopied ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
         )}
-
       </div>
 
       <button onClick={onStartNew} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
@@ -406,11 +404,14 @@ const FinalSummary = ({ summary, onStartNew, apiKey }) => {
 };
 
 
+// --- Main App Component ---
+
 const App = () => {
- 
-  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI"; 
-  
-  const [step, setStep] = useState('landing'); 
+  // IMPORTANT: Replace with your actual Gemini API Key.
+  // Consider using environment variables for security.
+  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
+
+  const [step, setStep] = useState('landing');
   const [extractedText, setExtractedText] = useState('');
   const [finalSummary, setFinalSummary] = useState(null);
 
@@ -427,10 +428,10 @@ const App = () => {
     setFinalSummary(summary);
     setStep('summary');
   };
-  
+
   const handleGoBackToOcr = () => {
-      setStep('ocr');
-      setExtractedText('');
+    setStep('ocr');
+    setExtractedText('');
   }
 
   const handleStartNew = () => {
@@ -454,18 +455,15 @@ const App = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-lg mx-auto">
-        <main className="bg-white rounded-xl shadow-lg p-8 w-full transition-all duration-300">
-          {renderStep()}
-        </main>
-        <footer className="text-center mt-6 text-sm text-gray-500">
-            <p>Bill Splitter </p>
-        </footer>
-      </div>
+    <div className="app-container">
+      <main className="main-content">
+        {renderStep()}
+      </main>
+      <footer className="footer">
+        <p>Bill Splitter</p>
+      </footer>
     </div>
   );
 };
 
 export default App;
-

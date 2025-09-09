@@ -1,0 +1,84 @@
+/* 1. Import a modern, elegant font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Define a modern color palette and base styles */
+@layer base {
+  :root {
+    --primary: #14b8a6; /* teal-500 */
+    --primary-hover: #0d9488; /* teal-600 */
+    --primary-light: #f0fdfa; /* teal-50 */
+    --primary-text: #0f766e; /* teal-700 */
+    
+    --surface-0: #ffffff;
+    --surface-100: #f8fafc; /* slate-50 */
+    --surface-200: #f1f5f9; /* slate-100 */
+    --surface-300: #e2e8f0; /* slate-200 */
+    --surface-border: #cbd5e1; /* slate-300 */
+
+    --text-main: #1e293b; /* slate-800 */
+    --text-secondary: #475569; /* slate-600 */
+    --text-light: #94a3b8; /* slate-400 */
+
+    --shadow-color: 220 40% 50%;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--surface-100);
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* General typography improvements */
+  h1, h2, h3 {
+    @apply font-bold text-slate-800;
+  }
+}
+
+/* 3. Apply the new theme to the components by overriding existing classes */
+@layer components {
+  /* Main App container */
+  .bg-gray-100 {
+    @apply !bg-surface-100;
+  }
+
+  /* Card styles for ImageUploader and BillSplitter */
+  .bg-white.shadow, .bg-white.shadow-lg {
+    @apply !bg-surface-0 !rounded-2xl !border !border-surface-300/50;
+    box-shadow: 0 10px 15px -3px hsl(var(--shadow-color) / 0.04), 0 4px 6px -4px hsl(var(--shadow-color) / 0.05);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .bg-white.shadow:hover, .bg-white.shadow-lg:hover {
+    @apply !shadow-2xl;
+    transform: translateY(-2px);
+  }
+
+  /* Button theming */
+  button {
+    @apply transition-transform duration-150 active:scale-[0.98];
+  }
+  .bg-blue-600 {
+    @apply !bg-primary !text-white !shadow-lg !shadow-primary/20 hover:!bg-primary-hover;
+  }
+  .bg-gray-200 {
+    @apply !bg-surface-200 !text-text-secondary hover:!bg-surface-300;
+  }
+  .bg-gray-600 {
+    @apply !bg-text-secondary !text-white hover:!bg-slate-700;
+  }
+
+  /* Input theming */
+  input[type="number"] {
+    @apply !border-surface-border focus:!ring-2 focus:!ring-primary/50 focus:!border-primary;
+  }
+
+  input[type="file"]::file-selector-button {
+    @apply !bg-primary-light !text-primary-text !font-semibold !border-0 !mr-4 !px-4 !py-2 !rounded-full hover:!bg-teal-100 cursor-pointer transition-colors;
+  }
+}
