@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Helper function to convert a file to a base64 string
 const fileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -10,7 +9,7 @@ const fileToBase64 = (file) => {
   });
 };
 
-// Helper function to format numbers as Indian Rupees (INR)
+
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
