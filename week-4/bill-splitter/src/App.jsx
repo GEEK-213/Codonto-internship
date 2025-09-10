@@ -7,7 +7,7 @@ import FinalSummary from './components/FinalSummary';
 
 const App = () => {
 
-  const apiKey = process.env.REACTT_APP_GEMINI_API_KEY  ;
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY  ;
 
   const [step, setStep] = useState('landing');
   const [extractedText, setExtractedText] = useState('');
