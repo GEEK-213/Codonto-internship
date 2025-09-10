@@ -1,50 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { fileToBase64 } from '../utils/helpers.js';
 
-const UploadIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-  </svg>
-);
+const OCRResult = ({ onTextExtracted, onBack, apiKey }) => {
+  const [file, setFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState('');
+  const fileInputRef = useRef(null);
 
-const OCRResult = ({ onOcrSuccess, onBack, apiKey }) => {
-  const [isExtracting, setIsExtracting] = useState(false);
-  const [error, setError] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  // ... (Paste the handleFileChange and handleExtractText functions here) ...
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!validTypes.includes(selectedFile.type)) {
+        setError('Invalid file type. Please upload a JPG, PNG, or WEBP image.');
+        return;
+      }
+      setError('');
+      setFile(selectedFile);
+      setImagePreview(URL.createObjectURL(selectedFile));
+    }
+  };
 
-  const fileToBase64 = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = error => reject(error);
-  });
-
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
+  const handleExtractText = async () => {
+    if (!file) {
+      setError('Please select a file first.');
+      return;
+    }
     if (!apiKey) {
-      setError("Please enter your Gemini API key above to scan receipts.");
+      setError('API Key is missing. Please add it to the code.');
       return;
     }
 
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      setError('Please upload a valid JPG or PNG image.');
-      return;
-    }
-    
-    setImagePreview(URL.createObjectURL(file));
-    setError(null);
-    setIsExtracting(true);
+    setStatus('processing');
+    setError('');
 
     try {
-      const base64ImageData = await fileToBase64(file);
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-      
+      const base64Image = await fileToBase64(file);
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
       const payload = {
         contents: [{
           parts: [
-            { text: "You are an expert receipt scanner. Extract every line item and its price from the provided image. Return only the raw text, with each item on a new line. Do not add any commentary or formatting." },
-            { inlineData: { mimeType: file.type, data: base64ImageData } }
+            { text: "Extract all item names and their corresponding prices from this receipt image. List each item on a new line." },
+            { inline_data: { mime_type: file.type, data: base64Image } }
           ]
         }]
       };
@@ -56,53 +56,68 @@ const OCRResult = ({ onOcrSuccess, onBack, apiKey }) => {
       });
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        const errorBody = await response.json();
+        throw new Error(`API Error: ${errorBody.error.message}`);
       }
 
       const result = await response.json();
-      const extractedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+      const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-      if (extractedText && extractedText.trim()) {
-        onOcrSuccess(extractedText.trim());
-      } else {
-        setError("Couldn't find any items on the receipt. Please try another image.");
+      if (!text || text.trim() === '') {
+        throw new Error("The AI couldn't find any text on the receipt. Please try a clearer image.");
       }
+
+      onTextExtracted(text);
+
     } catch (err) {
       console.error(err);
-      setError("Failed to process the image. Check your API key and try again.");
-    } finally {
-      setIsExtracting(false);
+      setError(err.message || 'An unknown error occurred.');
+      setStatus('error');
     }
   };
 
+
   return (
-    <div className="w-full max-w-md mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Upload Receipt</h2>
-       {imagePreview && !error && (
-        <div className="mb-4">
-            <img src={imagePreview} alt="Receipt preview" className="rounded-lg shadow-md max-h-64 mx-auto" />
-        </div>
-       )}
-      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-        <label htmlFor="receipt-upload" className={`w-full flex items-center justify-center px-4 py-6 bg-gray-50 text-blue-600 rounded-lg shadow-inner tracking-wide uppercase border border-dashed border-blue-400 cursor-pointer hover:bg-blue-100 ${isExtracting ? 'opacity-50 cursor-not-allowed' : ''}`}>
-          <UploadIcon />
-          <span className="text-base leading-normal">{isExtracting ? 'Extracting with AI...' : 'Select a file'}</span>
-          <input id="receipt-upload" type="file" className="hidden" onChange={handleImageUpload} accept="image/png, image/jpeg" disabled={isExtracting} />
-        </label>
-        {isExtracting && (
-          <div className="mt-4 w-full text-center">
-             <div className="flex items-center justify-center text-blue-700">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span>Processing...</span>
-             </div>
+    <div className="text-center">
+      <h2>Upload Receipt</h2>
+      <div
+        className="file-upload-area"
+        onClick={() => fileInputRef.current.click()}
+      >
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+          accept="image/png, image/jpeg, image/webp"
+        />
+        {imagePreview ? (
+          <img src={imagePreview} alt="Receipt preview" />
+        ) : (
+          <div className="file-upload-placeholder">
+            <svg stroke="currentColor" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+            <p>Click to select a file</p>
           </div>
         )}
-        {error && <p className="mt-4 text-center text-red-500 font-semibold">{error}</p>}
       </div>
-      <button onClick={onBack} className="mt-6 text-gray-600 hover:text-gray-800 transition-colors">
+
+      {error && <p className="error-message">{error}</p>}
+
+      {status === 'processing' ? (
+        <div className="status-message">
+           <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+           Extracting ...
+        </div>
+      ) : (
+        <button
+          onClick={handleExtractText}
+          className="btn btn-full-width"
+          disabled={!file}
+        >
+          Extract Items
+        </button>
+      )}
+      <button onClick={onBack} className="back-button">
         &larr; Go Back
       </button>
     </div>
@@ -110,4 +125,3 @@ const OCRResult = ({ onOcrSuccess, onBack, apiKey }) => {
 };
 
 export default OCRResult;
-
