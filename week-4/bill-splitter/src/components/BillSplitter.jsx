@@ -1,147 +1,127 @@
 import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../utils/helpers.js';
 
-const BillSplitter = ({ extractedText, onProceed, onBack, apiKey }) => {
-  const [items, setItems] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [people, setPeople] = useState(2);
-  const [isCategorizing, setIsCategorizing] = useState(false);
-  const [error, setError] = useState('');
-
+const BillSplitter = ({ extractedText, onProceed, onBack }) => {
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [tax, setTax] = useState('');
+  const [tip, setTip] = useState('');
  
-  useEffect(() => {
-    const parseText = () => {
-      if (!extractedText) return;
-      const lines = extractedText.split('\n');
-      const uniqueItems = new Map();
-      const itemRegex = /(.+?)\s+([$₹€]?\s?\d+[.,]\d{2})/;
+  useEffect(() => {
+    const parseText = () => {
+      if (!extractedText) return;
+      const lines = extractedText.split('\n');
+      const uniqueItems = new Map();
+      const itemRegex = /(.+?)\s+([$₹€]?\s?\d+[.,]\d{2})/;
 
-      lines.forEach(line => {
-        const match = line.match(itemRegex);
-        if (match) {
-          const name = match[1].trim();
-          const priceString = match[2].replace(/[$,₹€\s]/g, '').replace(',', '.');
-          const price = parseFloat(priceString);
+      lines.forEach(line => {
+        const match = line.match(itemRegex);
+        if (match) {
+          const name = match[1].trim();
+          const priceString = match[2].replace(/[$,₹€\s]/g, '').replace(',', '.');
+          const price = parseFloat(priceString);
+          if (!isNaN(price) && price > 0) {
+            const itemKey = `${name}-${price}`;
+            if (!uniqueItems.has(itemKey)) {
+              uniqueItems.set(itemKey, { id: crypto.randomUUID(), name, price });
+            }
+          }
+        }
+      });
+      setItems(Array.from(uniqueItems.values()));
+    };
+    parseText();
+  }, [extractedText]);
 
-          if (!isNaN(price) && price > 0) {
-            const itemKey = `${name}-${price}`;
-            if (!uniqueItems.has(itemKey)) {
-              uniqueItems.set(itemKey, {
-                id: crypto.randomUUID(),
-                name: name,
-                price: price,
-                category: 'Uncategorized'
-              });
-            }
+  useEffect(() => {
+    const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+    const taxAmount = parseFloat(tax) || 0;
+    const tipAmount = parseFloat(tip) || 0;
+    setTotal(subtotal + taxAmount + tipAmount);
+  }, [items, tax, tip]);
+
+  const handleAddItem = () => {
+    const newItem = { id: crypto.randomUUID(), name: '', price: 0 };
+    setItems([...items, newItem]);
+  };
+
+  const handleDeleteItem = (id) => setItems(items.filter(item => item.id !== id));
+ 
+  const handleItemChange = (id, field, value) => {
+      setItems(items.map(item => {
+          if (item.id === id) {
+              const newValue = field === 'price' ? parseFloat(value) || 0 : value;
+              return { ...item, [field]: newValue };
           }
-        }
-      });
-      setItems(Array.from(uniqueItems.values()));
-    };
-    parseText();
-  }, [extractedText]);
-
-  useEffect(() => {
-    const newTotal = items.reduce((sum, item) => sum + item.price, 0);
-    setTotal(newTotal);
-  }, [items]);
-
-  const handleCategorize = async () => {
-    if (!apiKey) {
-      setError("API Key is missing. Please add it to the code.");
-      return;
-    }
-    setIsCategorizing(true);
-    setError('');
-
-    const itemList = items.map(item => item.name).join(', ');
-    const prompt = `Categorize these items: ${itemList}. Respond with a JSON object where keys are item names and values are categories like 'Food', 'Drink', or 'Other'. Example: {"Burger": "Food", "Coke": "Drink"}`;
-
-    try {
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-      const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: "application/json" }
-      };
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) throw new Error('API request failed');
-
-      const result = await response.json();
-      const categoryData = JSON.parse(result.candidates[0].content.parts[0].text);
-
-      setItems(prevItems =>
-        prevItems.map(item => ({
-          ...item,
-          category: categoryData[item.name] || 'Other'
-        }))
-      );
-    } catch (err) {
-      console.error(err);
-      setError("Couldn't categorize items. Please try again.");
-    } finally {
-      setIsCategorizing(false);
-    }
+          return item;
+      }));
   };
 
-  const handleProceed = () => {
-    const perPersonAmount = total > 0 && people > 0 ? total / people : 0;
-    onProceed({ items, total, people, perPersonAmount });
-  };
+  const handleProceed = () => {
+    const taxAmount = parseFloat(tax) || 0;
+    const tipAmount = parseFloat(tip) || 0;
+    onProceed({ items, tax: taxAmount, tip: tipAmount });
+  };
 
+  return (
+    <div className="card-design">
+        <button onClick={onBack} className="back-button">&larr; Back</button>
+        <h2 className="header-title">Receipt Items</h2>
+        <p className="header-subtitle">List all the items on your receipt</p>
 
-  return (
-    <div>
-      <h2 className="text-center">Split the Bill</h2>
-      <div className="item-list">
-        <ul>
-          {items.map(item => (
-            <li key={item.id} className="item">
-              <div>
-                <span className="item-name">{item.name}</span>
-                <span className="item-category">{item.category}</span>
-              </div>
-              <span className="item-price">{formatCurrency(item.price)}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <button
-        onClick={handleCategorize}
-        disabled={isCategorizing || items.length === 0}
-        className="btn btn-secondary btn-full-width"
-      >
-        {isCategorizing ? "Categorizing..." : "✨ AI Categorize Items"}
-      </button>
-      {error && <p className="error-message text-center">{error}</p>}
-
-      <div className="total-section">
-        <span>Total:</span>
-        <span>{formatCurrency(total)}</span>
-      </div>
-
-      <div className="input-group">
-        <label>How many people are splitting?</label>
-        <input
-          type="number"
-          value={people}
-          onChange={(e) => setPeople(Math.max(1, parseInt(e.target.value) || 1))}
-          className="input-field"
-        />
-      </div>
-
-      <button onClick={handleProceed} className="btn btn-full-width">
-        Proceed to Summary
-      </button>
-      <button onClick={onBack} className="back-button btn-full-width">
-        &larr; Scan a different receipt
-      </button>
-    </div>
-  );
+        <div className="item-list-design">
+            {items.map(item => (
+                <div key={item.id} className="item-row-design">
+                    <input 
+                        type="text" 
+                        value={item.name} 
+                        onChange={(e) => handleItemChange(item.id, 'name', e.target.value)}
+                        placeholder="Item name"
+                        className="item-input-name"
+                    />
+                    <div className="price-section">
+                        <span className="currency-symbol">$</span>
+                        <input 
+                            type="number" 
+                            value={item.price}
+                            onChange={(e) => handleItemChange(item.id, 'price', e.target.value)}
+                            className="item-input-price"
+                            step="0.01"
+                        />
+                    </div>
+                    <button onClick={() => handleDeleteItem(item.id)} className="delete-button">🗑️</button>
+                </div>
+            ))}
+             <button onClick={handleAddItem} className="add-item-button">+ Add Item</button>
+        </div>
+        
+        <div className="summary-section-design">
+            <div className="tax-tip-grid">
+                <div className="input-group-design">
+                    <label>Tip</label>
+                    <div className="price-section">
+                        <span className="currency-symbol">$</span>
+                        <input type="number" value={tip} onChange={(e) => setTip(e.target.value)} placeholder="0.00" step="0.01"/>
+                    </div>
+                </div>
+                <div className="input-group-design">
+                    <label>Tax</label>
+                    <div className="price-section">
+                        <span className="currency-symbol">$</span>
+                        <input type="number" value={tax} onChange={(e) => setTax(e.target.value)} placeholder="0.00" step="0.01"/>
+                    </div>
+                </div>
+            </div>
+            <div className="total-row-design">
+                <span>Total:</span>
+                <span>{formatCurrency(total)}</span>
+            </div>
+        </div>
+        
+        <button onClick={handleProceed} className="btn-design-primary">
+          Continue
+        </button>
+    </div>
+  );
 };
-
 export default BillSplitter;

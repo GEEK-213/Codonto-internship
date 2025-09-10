@@ -2,22 +2,27 @@ import React, { useState } from 'react';
 import LandingScreen from './components/LandingScreen';
 import OCRResult from './components/OCRResult';
 import BillSplitter from './components/BillSplitter';
+import AssignItems from './components/AssignItems';
 import FinalSummary from './components/FinalSummary';
 
 const App = () => {
-  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI"; 
+  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
 
   const [step, setStep] = useState('landing');
   const [extractedText, setExtractedText] = useState('');
+  const [billDetails, setBillDetails] = useState(null);
   const [finalSummary, setFinalSummary] = useState(null);
 
-  const handleScanReceipt = () => {
-    setStep('ocr');
-  };
+  const handleScanReceipt = () => setStep('ocr');
 
   const handleTextExtracted = (text) => {
     setExtractedText(text);
     setStep('splitter');
+  };
+
+  const handleProceedToAssigner = (details) => {
+    setBillDetails(details);
+    setStep('assigner');
   };
 
   const handleProceedToSummary = (summary) => {
@@ -25,14 +30,14 @@ const App = () => {
     setStep('summary');
   };
   
-  const handleGoBackToOcr = () => {
-    setStep('ocr');
-    setExtractedText('');
+  const handleGoBackToSplitter = () => {
+      setStep('splitter');
   }
 
   const handleStartNew = () => {
     setStep('landing');
     setExtractedText('');
+    setBillDetails(null);
     setFinalSummary(null);
   };
 
@@ -41,9 +46,11 @@ const App = () => {
       case 'ocr':
         return <OCRResult onTextExtracted={handleTextExtracted} onBack={handleStartNew} apiKey={apiKey} />;
       case 'splitter':
-        return <BillSplitter extractedText={extractedText} onProceed={handleProceedToSummary} onBack={handleGoBackToOcr} apiKey={apiKey} />;
+        return <BillSplitter extractedText={extractedText} onProceed={handleProceedToAssigner} onBack={handleStartNew} />;
+      case 'assigner':
+        return <AssignItems billDetails={billDetails} onProceed={handleProceedToSummary} onBack={handleGoBackToSplitter} />;
       case 'summary':
-        return <FinalSummary summary={finalSummary} onStartNew={handleStartNew} apiKey={apiKey} />;
+        return <FinalSummary summary={finalSummary} onStartNew={handleStartNew} />;
       case 'landing':
       default:
         return <LandingScreen onScan={handleScanReceipt} />;

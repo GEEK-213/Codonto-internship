@@ -10,6 +10,12 @@ export const fileToBase64 = (file) => {
 
 
 export const formatCurrency = (amount) => {
+  if (typeof amount !== 'number') {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR'
+      }).format(0);
+  }
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR'

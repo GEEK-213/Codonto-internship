@@ -2,11 +2,11 @@ import React from 'react';
 
 const LandingScreen = ({ onScan }) => {
   return (
-    <div className="text-center">
-      <h1>Bill Splitter</h1>
-      <p>Upload a receipt and split the bill with ease.</p>
-      <button onClick={onScan} className="btn">
-        Scan a Receipt
+    <div className="card-design text-center">
+      <h1 className="app-title">Scan. Tap. Split.</h1>
+      <p className="app-subtitle">Snap the receipt</p>
+      <button onClick={onScan} className="btn-design-primary">
+        Scan Receipt
       </button>
     </div>
   );
