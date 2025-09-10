@@ -68,9 +68,7 @@ const App = () => {
       <main className="main-content">
         {renderStep()}
       </main>
-      <footer className="footer">
-        <p>Bill Splitter</p>
-      </footer>
+      
     </div>
   );
 };
