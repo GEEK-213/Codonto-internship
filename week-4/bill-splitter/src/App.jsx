@@ -6,6 +6,7 @@ import AssignItems from './components/AssignItems';
 import FinalSummary from './components/FinalSummary';
 
 const App = () => {
+  // IMPORTANT: Remember to add your Gemini API Key here
   const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
 
   const [step, setStep] = useState('landing');
@@ -34,6 +35,10 @@ const App = () => {
       setStep('splitter');
   }
 
+  const handleGoBackToAssigner = () => {
+      setStep('assigner');
+  }
+
   const handleStartNew = () => {
     setStep('landing');
     setExtractedText('');
@@ -50,7 +55,8 @@ const App = () => {
       case 'assigner':
         return <AssignItems billDetails={billDetails} onProceed={handleProceedToSummary} onBack={handleGoBackToSplitter} />;
       case 'summary':
-        return <FinalSummary summary={finalSummary} onStartNew={handleStartNew} />;
+     
+        return <FinalSummary summary={finalSummary} onStartNew={handleStartNew} onBack={handleGoBackToAssigner} />;
       case 'landing':
       default:
         return <LandingScreen onScan={handleScanReceipt} />;
