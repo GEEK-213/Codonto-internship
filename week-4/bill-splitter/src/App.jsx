@@ -6,8 +6,8 @@ import AssignItems from './components/AssignItems';
 import FinalSummary from './components/FinalSummary';
 
 const App = () => {
-  // IMPORTANT: Remember to add your Gemini API Key here
-  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
+
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY  ;
 
   const [step, setStep] = useState('landing');
   const [extractedText, setExtractedText] = useState('');
