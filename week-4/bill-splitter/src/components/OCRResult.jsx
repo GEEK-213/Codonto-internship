@@ -105,7 +105,7 @@ const OCRResult = ({ onTextExtracted, onBack, apiKey }) => {
       {status === 'processing' ? (
         <div className="status-message">
            <div className="spinner"></div>
-           Extracting with AI...
+           Extracting 
         </div>
       ) : (
         <button

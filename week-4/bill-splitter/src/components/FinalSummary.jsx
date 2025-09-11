@@ -50,7 +50,7 @@ const FinalSummary = ({ summary, onStartNew, onBack }) => {
       </button>
 
       <button onClick={onStartNew} className="btn-design-secondary">
-        Back Home
+       Back Home
       </button>
     </div>
   );

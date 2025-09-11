@@ -7,7 +7,7 @@ import FinalSummary from './components/FinalSummary';
 
 const App = () => {
 
-  const apiKey =  "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
+  const apiKey = "AIzaSyDr5qmsPjwzgnx_epfQG6qB8l8dNr3EfWI";
 
   const [step, setStep] = useState('landing');
   const [extractedText, setExtractedText] = useState('');
@@ -15,6 +15,12 @@ const App = () => {
   const [finalSummary, setFinalSummary] = useState(null);
 
   const handleScanReceipt = () => setStep('ocr');
+
+
+  const handleEnterManually = () => {
+    setExtractedText(''); 
+    setStep('splitter');
+  };
 
   const handleTextExtracted = (text) => {
     setExtractedText(text);
@@ -34,7 +40,7 @@ const App = () => {
   const handleGoBackToSplitter = () => {
       setStep('splitter');
   }
-
+  
   const handleGoBackToAssigner = () => {
       setStep('assigner');
   }
@@ -55,11 +61,11 @@ const App = () => {
       case 'assigner':
         return <AssignItems billDetails={billDetails} onProceed={handleProceedToSummary} onBack={handleGoBackToSplitter} />;
       case 'summary':
-     
         return <FinalSummary summary={finalSummary} onStartNew={handleStartNew} onBack={handleGoBackToAssigner} />;
       case 'landing':
       default:
-        return <LandingScreen onScan={handleScanReceipt} />;
+    
+        return <LandingScreen onScan={handleScanReceipt} onEnterManually={handleEnterManually} />;
     }
   };
 
@@ -68,7 +74,9 @@ const App = () => {
       <main className="main-content">
         {renderStep()}
       </main>
-      
+      <footer className="footer">
+        <p>Bill Splitter</p>
+      </footer>
     </div>
   );
 };
