@@ -1,16 +1,16 @@
-/* --- GLOBAL & FONT --- */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* --- NEW Blue & White Theme --- */
-  --primary-color: #3B82F6; /* Bright Blue */
-  --primary-color-hover: #2563EB; /* Darker Blue for hover */
-  --background-color: #F9FAFB;  /* Very light grey */
+
+  --primary-color: #3B82F6;
+  --primary-color-hover: #2563EB; 
+  --background-color: #F9FAFB;
   --card-background: #FFFFFF;
-  --text-primary: #111827;      /* Dark Slate Grey */
-  --text-secondary: #6B7280;    /* Medium Grey */
-  --border-color: #E5E7EB;      /* Light Grey */
-  --input-background: #F3F4F6;  /* Slightly darker light grey */
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --border-color: #E5E7EB;
+  --input-background: #F3F4F6; 
   --font-family: 'Inter', sans-serif;
   --error-color: #e53e3e;
 }
@@ -49,7 +49,7 @@ input:focus {
   outline-color: var(--primary-color);
 }
 
-/* --- LAYOUT & CARD --- */
+/* --- LAYOUT --- */
 .app-container {
   width: 100%;
   max-width: 450px;
@@ -67,7 +67,7 @@ input:focus {
 }
 .text-center { text-align: center; }
 
-/* --- HEADERS & TEXT --- */
+/* --- HEADERS --- */
 .header-title {
   font-size: 1.75em;
   font-weight: 700;
